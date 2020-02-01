@@ -4,32 +4,185 @@
     <title>R2Token</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="bundle.js"></script>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">R2Token</a>
+            <a class="navbar-brand" href="#"><span id="tokenName"></span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Roles</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    Total supply: 100000.0000000 R2T
+                    Total supply: <span id="tokenTotalsupply"></span> <span id="tokenSymbol"></span>
                 </span>
             </div>
         </div>
     </nav>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-secondary">
+                    <b>Wallet:</b> <span id="walletAddress"></span>
+                    <b>Balance:</b> <span id="walletBalance"></span><span id="walletBalanceSymbol"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="transfer">
+                    <h2>Transfer to</h2>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="transfer-result"></p>
+                </form>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="approve">
+                    <h2>Approve</h2>
+                    <div class="form-group">
+                        <label>Spender</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="approve-result"></p>
+                </form>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="transferFrom">
+                    <h2>Transfer from</h2>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="transferFrom-result"></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="allowance">
+                    <h2>Allowance</h2>
+                    <div class="form-group">
+                        <label>Owner</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Spender</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="allowance-result"></p>
+                </form>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="increaseApproval">
+                    <h2>Increase approval</h2>
+                    <div class="form-group">
+                        <label>Spender</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Added value</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="increaseApproval-result"></p>
+                </form>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <form id="decreaseApproval">
+                    <h2>Decrease approval</h2>
+                    <div class="form-group">
+                        <label>Spender</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Subtracted Value</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="decreaseApproval-result"></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <form id="mintTo">
+                    <h2>Mint to</h2>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="mintTo-result"></p>
+                </form>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <form id="burnFrom">
+                    <h2>Burn from</h2>
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <p id="mintTo-result"></p>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
