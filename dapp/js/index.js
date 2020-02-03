@@ -51,12 +51,28 @@ const initWeb3 = async () => {
 
 const initContract = () => {
     const deploymentKey = Object.keys(R2Token.networks)[0];
+    
+    console.log(R2Token
+        .networks[deploymentKey]
+        .address)
+    
     return new web3.eth.Contract(
         R2Token.abi,
         R2Token
             .networks[deploymentKey]
             .address
     );
+};
+
+const setConnectedWallet = async ()=>{
+    let accounts = [];
+
+    const $walletAddress = document.getElementById('walletAddress');
+
+    accounts = await web3.eth.getAccounts();
+    connectedAccount = accounts[0];
+
+    $walletAddress.innerHTML = connectedAccount;
 };
 
 const setTotalSupply = async () => {
@@ -79,6 +95,25 @@ const setBalanceOf = async () => {
     $walletBalance.innerHTML = balanceOf;
     $walletBalanceSymbol.innerHTML = ' ' + tokenSymbol;
 }
+
+const registerAllowanceForm = async () => {
+    $allowance = document.getElementById('allowance');
+    $allowanceResult = document.getElementById('allowance-result');
+
+    $allowance.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const owner = e.target.elements[0].value;
+        const spender = e.target.elements[1].value;
+
+        try {
+            await contractInstance.methods.allowance(owner, spender).send({ from: connectedAccount });
+            $allowanceResult.innerHTML = 'allowance owner ' + owner + ' spender ' + spender;
+        } catch (err) {
+            $allowanceResult.innerHTML = 'allowance error: ' + err.message;
+        }
+    });
+};
 
 const registerTransferForm = async () => {
     $transfer = document.getElementById('transfer');
@@ -146,22 +181,18 @@ const registerBurnFrom = async () => {
 };
 
 const init = async () => {
-    let accounts = [];
+    try {        
+        await setConnectedWallet();
+        await setTotalSupply();
+        await setBalanceOf();
 
-    const $tokenName = document.getElementById('tokenName');
-    const $walletAddress = document.getElementById('walletAddress');
-
-    accounts = await web3.eth.getAccounts();
-    connectedAccount = accounts[0];
-
-    $walletAddress.innerHTML = connectedAccount;
-
-    await setTotalSupply();
-    await setBalanceOf();
-    
-    await registerMintToForm();
-    await registerBurnFrom();
-    await registerTransferForm();
+        await registerMintToForm();
+        await registerBurnFrom();
+        await registerTransferForm();
+        await registerAllowanceForm();
+    } catch (err) {
+        console.error(err.message);
+    }
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
