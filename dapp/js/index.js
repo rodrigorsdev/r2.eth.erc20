@@ -2,6 +2,8 @@
 import Web3 from 'web3';
 import R2Token from '../../build/contracts/R2Token.json';
 
+import { registerTransferForm, clearTransferModal } from './transfer.js';
+
 let web3;
 let contractInstance;
 let connectedAccount;
@@ -10,29 +12,12 @@ let tokenName = '';
 let tokenTotalSupply = 0;
 let tokenSymbol = '';
 
-let $transfer;
-let $transferResult;
-
-let $approve;
-let $approveResult;
-
-let $transferFrom;
-let $transferFromResult;
-
-let $allowance;
-let $allowanceResult;
-
-let $increaseApproval;
-let $increaseApprovalResult;
-
-let $decreaseApproval;
-let $decreaseApprovalResult;
-
-let $mintTo;
-let $mintToResult;
-
-let $burnFrom;
-let $burnFromResult;
+let $transferForm;
+let $transferSubmit;
+let $transferMessageSuccess;
+let $transferMessageSuccessText;
+let $transferMessageDanger;
+let $transferMessageDangerText;
 
 const initWeb3 = async () => {
 
@@ -51,11 +36,6 @@ const initWeb3 = async () => {
 
 const initContract = () => {
     const deploymentKey = Object.keys(R2Token.networks)[0];
-    
-    console.log(R2Token
-        .networks[deploymentKey]
-        .address)
-    
     return new web3.eth.Contract(
         R2Token.abi,
         R2Token
@@ -64,7 +44,22 @@ const initContract = () => {
     );
 };
 
-const setConnectedWallet = async ()=>{
+const registerElements = () => {
+    $transferForm = document.getElementById('transfer');
+    $transferSubmit = document.getElementById('tranferSubmit');
+    $transferMessageSuccess = document.getElementById('transfer-result-success');
+    $transferMessageSuccessText = document.getElementById('transfer-result-success-text');
+    $transferMessageDanger = document.getElementById('transfer-result-danger');
+    $transferMessageDangerText = document.getElementById('transfer-result-danger-text');
+};
+
+const setTokenName = async () => {
+    const $tokenName = document.getElementById('tokenName');
+    tokenName = await contractInstance.methods.name().call();
+    $tokenName.innerHTML = tokenName;
+};
+
+const setConnectedWallet = async () => {
     let accounts = [];
 
     const $walletAddress = document.getElementById('walletAddress');
@@ -79,117 +74,35 @@ const setTotalSupply = async () => {
     const $tokenTotalsupply = document.getElementById('tokenTotalsupply');
     const $tokenSymbol = document.getElementById('tokenSymbol');
 
-    const totalSypply = await contractInstance.methods.totalSupply().call();
+    tokenTotalSupply = await contractInstance.methods.totalSupply().call();
     tokenSymbol = await contractInstance.methods.symbol().call();
 
-    $tokenTotalsupply.innerHTML = totalSypply;
+    $tokenTotalsupply.innerHTML = tokenTotalSupply;
     $tokenSymbol.innerHTML = tokenSymbol;
 }
 
-const setBalanceOf = async () => {
-    const $walletBalance = document.getElementById('walletBalance');
-    const $walletBalanceSymbol = document.getElementById('walletBalanceSymbol');
-
-    const balanceOf = await contractInstance.methods.balanceOf(connectedAccount).call();
-
-    $walletBalance.innerHTML = balanceOf;
-    $walletBalanceSymbol.innerHTML = ' ' + tokenSymbol;
-}
-
-const registerAllowanceForm = async () => {
-    $allowance = document.getElementById('allowance');
-    $allowanceResult = document.getElementById('allowance-result');
-
-    $allowance.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const owner = e.target.elements[0].value;
-        const spender = e.target.elements[1].value;
-
-        try {
-            await contractInstance.methods.allowance(owner, spender).send({ from: connectedAccount });
-            $allowanceResult.innerHTML = 'allowance owner ' + owner + ' spender ' + spender;
-        } catch (err) {
-            $allowanceResult.innerHTML = 'allowance error: ' + err.message;
-        }
-    });
-};
-
-const registerTransferForm = async () => {
-    $transfer = document.getElementById('transfer');
-    $transferResult = document.getElementById('transfer-result');
-
-    $transfer.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const to = e.target.elements[0].value;
-        const value = e.target.elements[1].value;
-
-        try {
-            await contractInstance.methods.transfer(to, value).send({ from: connectedAccount });
-            $transferResult.innerHTML = 'transfer ' + amount + ' ' + tokenSymbol + ' To ' + to;
-        } catch (err) {
-            $transferResult.innerHTML = 'transfer error: ' + err.message;
-        }
-
-        await setBalanceOf();
-    });
-};
-
-const registerMintToForm = async () => {
-    $mintTo = document.getElementById('mintTo');
-    $mintToResult = document.getElementById('mintTo-result');
-
-    $mintTo.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const to = e.target.elements[0].value;
-        const amount = e.target.elements[1].value;
-
-        try {
-            await contractInstance.methods.mintTo(to, amount).send({ from: connectedAccount });
-            $mintToResult.innerHTML = 'mint ' + amount + ' To ' + to;
-        } catch (err) {
-            $mintToResult.innerHTML = 'mintTo error: ' + err.message;
-        }
-
-        await setTotalSupply();
-        await setBalanceOf();
-    });
-};
-
-const registerBurnFrom = async () => {
-    $burnFrom = document.getElementById('burnFrom');
-    $burnFromResult = document.getElementById('burnFrom-result');
-
-    $burnFrom.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const from = e.target.elements[0].value;
-        const amount = e.target.elements[1].value;
-
-        try {
-            await contractInstance.methods.burnFrom(from, amount).send({ from: connectedAccount });
-            $burnFromResult.innerHTML = 'burn ' + amount + ' from ' + to;
-        } catch (err) {
-            $burnFromResult.innerHTML = 'burnFrom error: ' + err.message;
-        }
-
-        await setTotalSupply();
-        await setBalanceOf();
-    });
-};
-
 const init = async () => {
-    try {        
-        await setConnectedWallet();
-        await setTotalSupply();
-        await setBalanceOf();
+    try {
+        registerElements();
 
-        await registerMintToForm();
-        await registerBurnFrom();
-        await registerTransferForm();
-        await registerAllowanceForm();
+        await setTokenName();
+        await setTotalSupply();
+
+        await setConnectedWallet();
+
+        await registerTransferForm(
+            $transferForm,
+            $transferSubmit,
+            $transferMessageSuccess,
+            $transferMessageSuccessText,
+            $transferMessageDanger,
+            $transferMessageDangerText,
+            contractInstance,
+            connectedAccount
+        );
+
+        clearTransferModal();
+
     } catch (err) {
         console.error(err.message);
     }
