@@ -1,5 +1,5 @@
-import { connectedAccount, setConnectedWalletBalance } from './account.js';
-import { setMessage } from '../util/message.js';
+import { connectedAccount, setConnectedWalletBalance } from './account';
+import { setMessage } from '../util/message';
 
 let $decreaseApprovalForm;
 let $decreaseApprovalMessageSuccess;
