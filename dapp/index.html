@@ -32,6 +32,17 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
+                            Approve
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Approve</a>
+                            <a class="dropdown-item" href="#">Increase approval</a>
+                            <a class="dropdown-item" href="#">Decrease approval</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             Mint/Burn
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -49,17 +60,6 @@
                             <a class="dropdown-item" href="#">Lifecycle</a>
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Approve
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Approve</a>
-                            <a class="dropdown-item" href="#">Increase approval</a>
-                            <a class="dropdown-item" href="#">Decrease approval</a>
-                        </div>
-                    </li>
                 </ul>
                 <span class="navbar-text">
                     Total supply: <span id="tokenTotalsupply"></span> <span id="tokenSymbol"></span>
@@ -69,7 +69,6 @@
     </nav>
     <br />
     <div class="container">
-
         <div class="row">
             <div class="col-sm-8">
                 <div class="alert alert-secondary">
@@ -91,8 +90,15 @@
                         <label>Wallet</label>
                         <input type="text" class="form-control"></input>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="balanceOf-result"></p>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div id="balanceOf-result-success" class="alert alert-success">
+                        <span id="balanceOf-result-success-text"></span>
+                    </div>
+                    <div id="balanceOf-result-danger" class="alert alert-danger">
+                        <span id="balanceOf-result-danger-text"></span>
+                    </div>
                 </form>
             </div>
 
@@ -107,8 +113,15 @@
                         <label>Spender</label>
                         <input type="text" class="form-control"></input>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="allowance-result"></p>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div id="allowance-result-success" class="alert alert-success">
+                        <span id="allowance-result-success-text"></span>
+                    </div>
+                    <div id="allowance-result-danger" class="alert alert-danger">
+                        <span id="allowance-result-danger-text"></span>
+                    </div>
                 </form>
             </div>
         </div>
@@ -116,34 +129,34 @@
         <div class="modal fade" id="transferModal" role="dialog">
             <div class="modal-dialog">
                 <form id="transfer">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Transfer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Transfer</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>To</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Value</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="transfer-result-success" class="alert alert-success">
+                                <span id="transfer-result-success-text"></span>
+                            </div>
+                            <div id="transfer-result-danger" class="alert alert-danger">
+                                <span id="transfer-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>To</label>
-                            <input type="text" class="form-control"></input>
-                        </div>
-                        <div class="form-group">
-                            <label>Value</label>
-                            <input type="text" class="form-control"></input>
-                        </div>
-                        <div id="transfer-result-success" class="alert alert-success">
-                            <span id="transfer-result-success-text"></span>
-                        </div>
-                        <div id="transfer-result-danger" class="alert alert-danger">
-                            <span id="transfer-result-danger-text"></span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
                 </form>
             </div>
         </div>

@@ -1,32 +1,39 @@
+import { connectedAccount, setConnectedWalletBalance } from './account.js';
+import { setMessage } from './util.js';
+
 let $transferForm;
-let $transferSubmit;
 let $transferMessageSuccess;
 let $transferMessageSuccessText;
 let $transferMessageDanger;
 let $transferMessageDangerText;
 
 let contractInstance;
-let connectedAccount;
 
-export const registerTransferForm = async (
+export const registerTranferElements = (
     _transferForm,
-    _transferSubmit,
     _transferMessageSuccess,
     _transferMessageSuccessText,
     _transferMessageDanger,
     _transferMessageDangerText,
     _contractInstance,
-    _connectedAccount
 ) => {
     $transferForm = _transferForm;
-    $transferSubmit = _transferSubmit;
     $transferMessageSuccess = _transferMessageSuccess;
     $transferMessageSuccessText = _transferMessageSuccessText;
     $transferMessageDanger = _transferMessageDanger;
     $transferMessageDangerText = _transferMessageDangerText;
     contractInstance = _contractInstance;
-    connectedAccount = _connectedAccount;
+};
 
+export const clearTransferFormModal = () => {
+    $transferForm.reset();
+    $transferMessageSuccess.style.display = 'none';
+    $transferMessageSuccessText.innerHTML = '';
+    $transferMessageDanger.style.display = 'none';
+    $transferMessageDangerText.innerHTML = '';
+};
+
+export const registerTransferFormSubmit = async () => {
     $transferForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -38,48 +45,23 @@ export const registerTransferForm = async (
         const to = e.target.elements[1].value;
         const value = Number(e.target.elements[2].value);
 
-        console.log(to);
-        console.log(value);
-
         try {
-            await contractInstance.methods.transfer(to, value).send({ from: connectedAccount });
+            const connectedAccountAddress = await connectedAccount();
+            await contractInstance.methods.transfer(to, value).send({ from: connectedAccountAddress });
             messageType = 'success';
             message = 'transfer success';
         } catch (err) {
             message = 'transfer error: ' + err.message;
         }
 
-        setTransferModalMessage(
+        setMessage(
+            $transferMessageSuccess,
+            $transferMessageSuccessText,
+            $transferMessageDanger,
+            $transferMessageDangerText,
             messageType,
             message);
 
-        //TO DO atualizar balance
+        await setConnectedWalletBalance();
     });
-};
-
-export const clearTransferModal = () => {
-    $transferForm.reset();
-    $transferMessageSuccess.style.display = 'none';
-    $transferMessageSuccessText.innerHTML = '';
-    $transferMessageDanger.style.display = 'none';
-    $transferMessageDangerText.innerHTML = '';
-};
-
-const setTransferModalMessage = (
-    type,
-    message
-) => {
-    if (type === 'success') {
-        $transferMessageSuccess.style.display = '';
-        $transferMessageSuccessText.innerHTML = message;
-
-        $transferMessageDanger.style.display = 'none';
-        $transferMessageDangerText.innerHTML = '';
-    } else if (type === 'danger') {
-        $transferMessageDanger.style.display = '';
-        $transferMessageDangerText.innerHTML = message;
-
-        $transferMessageSuccess.style.display = 'none';
-        $transferMessageSuccessText.innerHTML = '';
-    }
 };
