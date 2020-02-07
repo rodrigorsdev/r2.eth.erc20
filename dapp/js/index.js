@@ -18,6 +18,8 @@ import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormS
 
 import { registerLifecycleElements, getLifecycleStatus, registerLifecycleFormSubmit } from './functions/lifecycle';
 
+import { registerRoleVerifyElements, clearRoleVerifyFormModal, registerRoleVerifyFormSubmit } from './functions/roleVerify';
+
 let web3;
 let contractInstance;
 
@@ -88,6 +90,12 @@ let $lifecycleButtons;
 let $lifecycleStatusInput;
 let $lifecycleStatusIndex;
 let $lifecycleStatusIndexDiv;
+
+let $roleVerifyForm;
+let $roleVerifyMessageSuccess;
+let $roleVerifyMessageSuccessText;
+let $roleVerifyMessageDanger;
+let $roleVerifyMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -175,6 +183,12 @@ const registerElements = () => {
     $lifecycleStatusInput = document.getElementById('lifecycleStatusInput');
     $lifecycleStatusIndex = document.getElementById('lifecycleStatusIndex');
     $lifecycleStatusIndexDiv = document.getElementById('lifecycleStatusIndexDiv');
+
+    $roleVerifyForm = document.getElementById('roleVerify');
+    $roleVerifyMessageSuccess = document.getElementById('roleVerify-result-success');
+    $roleVerifyMessageSuccessText = document.getElementById('roleVerify-result-success-text');
+    $roleVerifyMessageDanger = document.getElementById('roleVerify-result-danger');
+    $roleVerifyMessageDangerText = document.getElementById('roleVerify-result-danger-text');
 };
 
 const init = async () => {
@@ -321,6 +335,18 @@ const init = async () => {
         );
         await getLifecycleStatus();
         await registerLifecycleFormSubmit();
+
+        //roleVerify
+        registerRoleVerifyElements(
+            $roleVerifyForm,
+            $roleVerifyMessageSuccess,
+            $roleVerifyMessageSuccessText,
+            $roleVerifyMessageDanger,
+            $roleVerifyMessageDangerText,
+            contractInstance
+        );
+        clearRoleVerifyFormModal();
+        await registerRoleVerifyFormSubmit();
 
     } catch (err) {
         console.error(err.message);
