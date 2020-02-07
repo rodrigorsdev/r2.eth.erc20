@@ -1,4 +1,4 @@
-import { connectedAccount } from './account.js';
+import { connectedAccount } from '../token/account';
 
 let $lifecycleForm;
 let $lifecycleStatus;

@@ -1,4 +1,4 @@
-import { setMessage } from './util.js';
+import { setMessage } from '../util/message';
 
 let $balanceOfForm;
 let $balanceOfMessageSuccess;

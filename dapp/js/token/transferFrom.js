@@ -1,5 +1,5 @@
 import { connectedAccount, setConnectedWalletBalance } from './account.js';
-import { setMessage } from './util.js';
+import { setMessage } from '../util/message.js';
 
 let $transferFromForm;
 let $transferFromMessageSuccess;

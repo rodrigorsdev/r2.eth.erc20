@@ -67,9 +67,9 @@
                             Roles
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#roleVerifyModal" data-toggle="modal">Verify</a>
-                            <a class="dropdown-item" href="#">Add</a>
-                            <a class="dropdown-item" href="#">Remove</a>
+                            <a class="dropdown-item" href="#verifyRoleModal" data-toggle="modal">Verify</a>
+                            <a class="dropdown-item" href="#addRoleModal" data-toggle="modal">Add</a>
+                            <a class="dropdown-item" href="#removeRoleModal" data-toggle="modal">Remove</a>
                         </div>
                     </li>
                 </ul>
@@ -417,12 +417,12 @@
             </div>
         </div>
 
-        <div class="modal fade" id="roleVerifyModal" role="dialog">
+        <div class="modal fade" id="verifyRoleModal" role="dialog">
             <div class="modal-dialog">
-                <form id="roleVerify">
+                <form id="verifyRole">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Role Verify</h5>
+                            <h5 class="modal-title">Verify Role</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -430,21 +430,99 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Role</label>
-                                <select id="roles" class="form-control">
+                                <select class="form-control">
                                     <option value="admin">Admin</option>
                                     <option value="burner">Burner</option>
                                     <option value="minter">Minter</option>
-                                  </select>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
                                 <input type="text" class="form-control"></input>
                             </div>
-                            <div id="roleVerify-result-success" class="alert alert-success">
-                                <span id="roleVerify-result-success-text"></span>
+                            <div id="verifyRole-result-success" class="alert alert-success">
+                                <span id="verifyRole-result-success-text"></span>
                             </div>
-                            <div id="roleVerify-result-danger" class="alert alert-danger">
-                                <span id="roleVerify-result-danger-text"></span>
+                            <div id="verifyRole-result-danger" class="alert alert-danger">
+                                <span id="verifyRole-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addRoleModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="addRole">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Role</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control">
+                                    <option value="admin">Admin</option>
+                                    <option value="burner">Burner</option>
+                                    <option value="minter">Minter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="addRole-result-success" class="alert alert-success">
+                                <span id="addRole-result-success-text"></span>
+                            </div>
+                            <div id="addRole-result-danger" class="alert alert-danger">
+                                <span id="addRole-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="removeRoleModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="removeRole">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Remove Role</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control">
+                                    <option value="admin">Admin</option>
+                                    <option value="burner">Burner</option>
+                                    <option value="minter">Minter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="removeRole-result-success" class="alert alert-success">
+                                <span id="removeRole-result-success-text"></span>
+                            </div>
+                            <div id="removeRole-result-danger" class="alert alert-danger">
+                                <span id="removeRole-result-danger-text"></span>
                             </div>
                         </div>
                         <div class="modal-footer">

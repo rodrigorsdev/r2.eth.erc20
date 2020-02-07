@@ -1,5 +1,5 @@
 import { connectedAccount } from './account.js';
-import { setMessage } from './util.js';
+import { setMessage } from '../util/message.js';
 
 let $allowanceForm;
 let $allowanceMessageSuccess;

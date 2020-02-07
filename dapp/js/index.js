@@ -1,24 +1,26 @@
 import Web3 from 'web3';
 import R2Token from '../../build/contracts/R2Token.json';
 
-import { setTokenInfo } from './functions/token';
-import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './functions/account';
+import { setTokenInfo } from './token/token';
+import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './token/account';
 
-import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './functions/balanceOf';
-import { registerAllowanceElements, clearAllowanceForm, allowanceFormSubmit } from './functions/allowance';
+import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './token/balanceOf';
+import { registerAllowanceElements, clearAllowanceForm, allowanceFormSubmit } from './token/allowance';
 
-import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './functions/transfer';
-import { registerTranferFromElements, clearTransferFromFormModal, registerTransferFromFormSubmit } from './functions/transferFrom';
-import { registerApproveElements, clearApproveFormModal, registerApproveFormSubmit } from './functions/approve';
-import { registerIncreaseApprovalElements, clearIncreaseApprovalFormModal, registerIncreaseApprovalFormSubmit } from './functions/increaseApproval';
-import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, registerDecreaseApprovalFormSubmit } from './functions/decreaseApproval';
+import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './token/transfer';
+import { registerTranferFromElements, clearTransferFromFormModal, registerTransferFromFormSubmit } from './token/transferFrom';
+import { registerApproveElements, clearApproveFormModal, registerApproveFormSubmit } from './token/approve';
+import { registerIncreaseApprovalElements, clearIncreaseApprovalFormModal, registerIncreaseApprovalFormSubmit } from './token/increaseApproval';
+import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, registerDecreaseApprovalFormSubmit } from './token/decreaseApproval';
 
-import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './functions/mintTo';
-import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './functions/burnFrom';
+import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './token/mintTo';
+import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './token/burnFrom';
 
-import { registerLifecycleElements, getLifecycleStatus, registerLifecycleFormSubmit } from './functions/lifecycle';
+import { registerLifecycleElements, getLifecycleStatus, registerLifecycleFormSubmit } from './lifecycle/status';
 
-import { registerRoleVerifyElements, clearRoleVerifyFormModal, registerRoleVerifyFormSubmit } from './functions/roleVerify';
+import { registerVerifyRoleElements, clearVerifyRoleFormModal, registerVerifyRoleFormSubmit } from './roles/verifyRole';
+import { registerAddRoleElements, clearAddRoleFormModal, registerAddRoleFormSubmit } from './roles/AddRole';
+import { registerRemoveRoleElements, clearRemoveRoleFormModal, registerRemoveRoleFormSubmit } from './roles/removeRole';
 
 let web3;
 let contractInstance;
@@ -91,11 +93,23 @@ let $lifecycleStatusInput;
 let $lifecycleStatusIndex;
 let $lifecycleStatusIndexDiv;
 
-let $roleVerifyForm;
-let $roleVerifyMessageSuccess;
-let $roleVerifyMessageSuccessText;
-let $roleVerifyMessageDanger;
-let $roleVerifyMessageDangerText;
+let $verifyRoleForm;
+let $verifyRoleMessageSuccess;
+let $verifyRoleMessageSuccessText;
+let $verifyRoleMessageDanger;
+let $verifyRoleMessageDangerText;
+
+let $addRoleForm;
+let $addRoleMessageSuccess;
+let $addRoleMessageSuccessText;
+let $addRoleMessageDanger;
+let $addRoleMessageDangerText;
+
+let $removeRoleForm;
+let $removeRoleMessageSuccess;
+let $removeRoleMessageSuccessText;
+let $removeRoleMessageDanger;
+let $removeRoleMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -184,11 +198,23 @@ const registerElements = () => {
     $lifecycleStatusIndex = document.getElementById('lifecycleStatusIndex');
     $lifecycleStatusIndexDiv = document.getElementById('lifecycleStatusIndexDiv');
 
-    $roleVerifyForm = document.getElementById('roleVerify');
-    $roleVerifyMessageSuccess = document.getElementById('roleVerify-result-success');
-    $roleVerifyMessageSuccessText = document.getElementById('roleVerify-result-success-text');
-    $roleVerifyMessageDanger = document.getElementById('roleVerify-result-danger');
-    $roleVerifyMessageDangerText = document.getElementById('roleVerify-result-danger-text');
+    $verifyRoleForm = document.getElementById('verifyRole');
+    $verifyRoleMessageSuccess = document.getElementById('verifyRole-result-success');
+    $verifyRoleMessageSuccessText = document.getElementById('verifyRole-result-success-text');
+    $verifyRoleMessageDanger = document.getElementById('verifyRole-result-danger');
+    $verifyRoleMessageDangerText = document.getElementById('verifyRole-result-danger-text');
+
+    $addRoleForm = document.getElementById('addRole');
+    $addRoleMessageSuccess = document.getElementById('addRole-result-success');
+    $addRoleMessageSuccessText = document.getElementById('addRole-result-success-text');
+    $addRoleMessageDanger = document.getElementById('addRole-result-danger');
+    $addRoleMessageDangerText = document.getElementById('addRole-result-danger-text');
+
+    $removeRoleForm = document.getElementById('removeRole');
+    $removeRoleMessageSuccess = document.getElementById('removeRole-result-success');
+    $removeRoleMessageSuccessText = document.getElementById('removeRole-result-success-text');
+    $removeRoleMessageDanger = document.getElementById('removeRole-result-danger');
+    $removeRoleMessageDangerText = document.getElementById('removeRole-result-danger-text');
 };
 
 const init = async () => {
@@ -336,17 +362,41 @@ const init = async () => {
         await getLifecycleStatus();
         await registerLifecycleFormSubmit();
 
-        //roleVerify
-        registerRoleVerifyElements(
-            $roleVerifyForm,
-            $roleVerifyMessageSuccess,
-            $roleVerifyMessageSuccessText,
-            $roleVerifyMessageDanger,
-            $roleVerifyMessageDangerText,
+        //verifyRole
+        registerVerifyRoleElements(
+            $verifyRoleForm,
+            $verifyRoleMessageSuccess,
+            $verifyRoleMessageSuccessText,
+            $verifyRoleMessageDanger,
+            $verifyRoleMessageDangerText,
             contractInstance
         );
-        clearRoleVerifyFormModal();
-        await registerRoleVerifyFormSubmit();
+        clearVerifyRoleFormModal();
+        await registerVerifyRoleFormSubmit();
+
+        //addRole
+        registerAddRoleElements(
+            $addRoleForm,
+            $addRoleMessageSuccess,
+            $addRoleMessageSuccessText,
+            $addRoleMessageDanger,
+            $addRoleMessageDangerText,
+            contractInstance
+        );
+        clearAddRoleFormModal();
+        await registerAddRoleFormSubmit();
+
+        //removeRole
+        registerRemoveRoleElements(
+            $removeRoleForm,
+            $removeRoleMessageSuccess,
+            $removeRoleMessageSuccessText,
+            $removeRoleMessageDanger,
+            $removeRoleMessageDangerText,
+            contractInstance
+        );
+        clearRemoveRoleFormModal();
+        await registerRemoveRoleFormSubmit();
 
     } catch (err) {
         console.error(err.message);
