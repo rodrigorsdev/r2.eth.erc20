@@ -16,6 +16,8 @@ import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, regis
 import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './functions/mintTo';
 import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './functions/burnFrom';
 
+import { registerLifecycleElements,clearLifecycleFormModal, getLifeciclyStatus, registerLifecycleFormSubmit } from './functions/lifecycle';
+
 let web3;
 let contractInstance;
 
@@ -79,6 +81,15 @@ let $burnFromMessageSuccess;
 let $burnFromMessageSuccessText;
 let $burnFromMessageDanger;
 let $burnFromMessageDangerText;
+
+let $lifecycleForm;
+let $lifecycleStatus;
+let $lifecycleButtons;
+let $lifecycleStatusInput;
+let $lifecycleMessageSuccess;
+let $lifecycleMessageSuccessText;
+let $lifecycleMessageDanger;
+let $lifecycleMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -159,6 +170,15 @@ const registerElements = () => {
     $burnFromMessageSuccessText = document.getElementById('burnFrom-result-success-text');
     $burnFromMessageDanger = document.getElementById('burnFrom-result-danger');
     $burnFromMessageDangerText = document.getElementById('burnFrom-result-danger-text');
+
+    $lifecycleForm = document.getElementById('lifecycle');
+    $lifecycleStatus = document.getElementById('lifecycleStatus');
+    $lifecycleButtons = document.getElementById('lifecycleButtons');
+    $lifecycleStatusInput = document.getElementById('lifecycleStatusInput');
+    $lifecycleMessageSuccess = document.getElementById('lifecycle-result-success');
+    $lifecycleMessageSuccessText = document.getElementById('lifecycle-result-success-text');
+    $lifecycleMessageDanger = document.getElementById('lifecycle-result-danger');
+    $lifecycleMessageDangerText = document.getElementById('lifecycle-result-danger-text');
 };
 
 const init = async () => {
@@ -257,8 +277,8 @@ const init = async () => {
         clearIncreaseApprovalFormModal();
         await registerIncreaseApprovalFormSubmit();
 
-         //decrease approval
-         registerDecreaseApprovalElements(
+        //decrease approval
+        registerDecreaseApprovalElements(
             $decreaseApprovalForm,
             $decreaseApprovalMessageSuccess,
             $decreaseApprovalMessageSuccessText,
@@ -292,6 +312,22 @@ const init = async () => {
         );
         clearBurnFromFormModal();
         await registerBurnFromFormSubmit();
+
+        //lifecycle
+        registerLifecycleElements(
+            $lifecycleForm,
+            $lifecycleStatus,
+            $lifecycleButtons,
+            $lifecycleStatusInput,
+            $lifecycleMessageSuccess,
+            $lifecycleMessageSuccessText,
+            $lifecycleMessageDanger,
+            $lifecycleMessageDangerText,
+            contractInstance
+        );
+        clearLifecycleFormModal();
+        await getLifeciclyStatus();
+        await registerLifecycleFormSubmit();
 
     } catch (err) {
         console.error(err.message);

@@ -36,8 +36,10 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="#approveModal" data-toggle="modal">Approve</a>
-                            <a class="dropdown-item" href="#increaseApprovalModal" data-toggle="modal">Increase approval</a>
-                            <a class="dropdown-item" href="#decreaseApprovalModal" data-toggle="modal">Decrease approval</a>
+                            <a class="dropdown-item" href="#increaseApprovalModal" data-toggle="modal">Increase
+                                approval</a>
+                            <a class="dropdown-item" href="#decreaseApprovalModal" data-toggle="modal">Decrease
+                                approval</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -57,7 +59,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="#">Roles</a>
-                            <a class="dropdown-item" href="#">Lifecycle</a>
+                            <a class="dropdown-item" href="#lifecycleModal" data-toggle="modal">Lifecycle</a>
                         </div>
                     </li>
                 </ul>
@@ -375,40 +377,34 @@
             </div>
         </div>
 
-<!--
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                <form id="mintTo">
-                    <h2>Mint to</h2>
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" class="form-control"></input>
+        <div class="modal fade" id="lifecycleModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="lifecycle">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Lifecycle</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Current status: <span id="lifecycleStatus"></span>
+                            </p>
+                            <input type="hidden" id="lifecycleStatusInput" />
+                            <div id="lifecycle-result-success" class="alert alert-success">
+                                <span id="lifecycle-result-success-text"></span>
+                            </div>
+                            <div id="lifecycle-result-danger" class="alert alert-danger">
+                                <span id="lifecycle-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div id="lifecycleButtons" class="modal-footer">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Amount</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="mintTo-result"></p>
                 </form>
             </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                <form id="burnFrom">
-                    <h2>Burn from</h2>
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="mintTo-result"></p>
-                </form>
-            </div>
-        </div> -->
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
