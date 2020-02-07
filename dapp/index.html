@@ -46,8 +46,8 @@
                             Mint/Burn
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Mint</a>
-                            <a class="dropdown-item" href="#">Burn</a>
+                            <a class="dropdown-item" href="#mintToModal" data-toggle="modal">Mint</a>
+                            <a class="dropdown-item" href="#burnFromModal" data-toggle="modal">Burn</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -305,110 +305,77 @@
             </div>
         </div>
 
-        <!-- <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="transfer">
-                    <h2>Transfer to</h2>
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" class="form-control"></input>
+        <div class="modal fade" id="mintToModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="mintTo">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Mint to</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>To</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="mintTo-result-success" class="alert alert-success">
+                                <span id="mintTo-result-success-text"></span>
+                            </div>
+                            <div id="mintTo-result-danger" class="alert alert-danger">
+                                <span id="mintTo-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Value</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="transfer-result"></p>
-                </form>
-            </div>
-
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="approve">
-                    <h2>Approve</h2>
-                    <div class="form-group">
-                        <label>Spender</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Value</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="approve-result"></p>
-                </form>
-            </div>
-
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="transferFrom">
-                    <h2>Transfer from</h2>
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Value</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="transferFrom-result"></p>
                 </form>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="allowance">
-                    <h2>Allowance</h2>
-                    <div class="form-group">
-                        <label>Owner</label>
-                        <input type="text" class="form-control"></input>
+        <div class="modal fade" id="burnFromModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="burnFrom">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Burn from</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>From</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="burnFrom-result-success" class="alert alert-success">
+                                <span id="burnFrom-result-success-text"></span>
+                            </div>
+                            <div id="burnFrom-result-danger" class="alert alert-danger">
+                                <span id="burnFrom-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Spender</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="allowance-result"></p>
-                </form>
-            </div>
-
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="increaseApproval">
-                    <h2>Increase approval</h2>
-                    <div class="form-group">
-                        <label>Spender</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Added value</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="increaseApproval-result"></p>
-                </form>
-            </div>
-
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <form id="decreaseApproval">
-                    <h2>Decrease approval</h2>
-                    <div class="form-group">
-                        <label>Spender</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Subtracted Value</label>
-                        <input type="text" class="form-control"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <p id="decreaseApproval-result"></p>
                 </form>
             </div>
         </div>
 
+<!--
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <form id="mintTo">

@@ -13,6 +13,9 @@ import { registerApproveElements, clearApproveFormModal, registerApproveFormSubm
 import { registerIncreaseApprovalElements, clearIncreaseApprovalFormModal, registerIncreaseApprovalFormSubmit } from './functions/increaseApproval';
 import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, registerDecreaseApprovalFormSubmit } from './functions/decreaseApproval';
 
+import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './functions/mintTo';
+import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './functions/burnFrom';
+
 let web3;
 let contractInstance;
 
@@ -64,6 +67,18 @@ let $decreaseApprovalMessageSuccess;
 let $decreaseApprovalMessageSuccessText;
 let $decreaseApprovalMessageDanger;
 let $decreaseApprovalMessageDangerText;
+
+let $mintToForm;
+let $mintToMessageSuccess;
+let $mintToMessageSuccessText;
+let $mintToMessageDanger;
+let $mintToMessageDangerText;
+
+let $burnFromForm;
+let $burnFromMessageSuccess;
+let $burnFromMessageSuccessText;
+let $burnFromMessageDanger;
+let $burnFromMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -132,6 +147,18 @@ const registerElements = () => {
     $decreaseApprovalMessageSuccessText = document.getElementById('decreaseApproval-result-success-text');
     $decreaseApprovalMessageDanger = document.getElementById('decreaseApproval-result-danger');
     $decreaseApprovalMessageDangerText = document.getElementById('decreaseApproval-result-danger-text');
+
+    $mintToForm = document.getElementById('mintTo');
+    $mintToMessageSuccess = document.getElementById('mintTo-result-success');
+    $mintToMessageSuccessText = document.getElementById('mintTo-result-success-text');
+    $mintToMessageDanger = document.getElementById('mintTo-result-danger');
+    $mintToMessageDangerText = document.getElementById('mintTo-result-danger-text');
+
+    $burnFromForm = document.getElementById('burnFrom');
+    $burnFromMessageSuccess = document.getElementById('burnFrom-result-success');
+    $burnFromMessageSuccessText = document.getElementById('burnFrom-result-success-text');
+    $burnFromMessageDanger = document.getElementById('burnFrom-result-danger');
+    $burnFromMessageDangerText = document.getElementById('burnFrom-result-danger-text');
 };
 
 const init = async () => {
@@ -241,6 +268,30 @@ const init = async () => {
         );
         clearDecreaseApprovalFormModal();
         await registerDecreaseApprovalFormSubmit();
+
+        //mintTo
+        registerMintToElements(
+            $mintToForm,
+            $mintToMessageSuccess,
+            $mintToMessageSuccessText,
+            $mintToMessageDanger,
+            $mintToMessageDangerText,
+            contractInstance
+        );
+        clearMintToFormModal();
+        await registerMintToFormSubmit();
+
+        //burnFrom
+        registerBurnFromElements(
+            $burnFromForm,
+            $burnFromMessageSuccess,
+            $burnFromMessageSuccessText,
+            $burnFromMessageDanger,
+            $burnFromMessageDangerText,
+            contractInstance
+        );
+        clearBurnFromFormModal();
+        await registerBurnFromFormSubmit();
 
     } catch (err) {
         console.error(err.message);
