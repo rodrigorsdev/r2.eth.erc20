@@ -37,8 +37,6 @@ export const registerTransferFormSubmit = async () => {
     $transferForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        console.log('transfer submited');
-
         let message = '';
         let messageType = 'danger';
 

@@ -2,13 +2,14 @@
 import Web3 from 'web3';
 import R2Token from '../../build/contracts/R2Token.json';
 
-import { setTokenInfo } from './token.js';
-import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './account.js';
+import { setTokenInfo } from './functions/token.js';
+import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './functions/account.js';
 
-import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './balanceOf.js';
-import { registerAllowanceElements, clearAllowanceForm, allowanceFormSubmit } from './allowance';
+import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './functions/balanceOf.js';
+import { registerAllowanceElements, clearAllowanceForm, allowanceFormSubmit } from './functions/allowance';
 
-import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './transfer.js';
+import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './functions/transfer.js';
+import { registerTranferFromElements, clearTransferFromFormModal, registerTransferFromFormSubmit } from './functions/transferFrom.js';
 
 let web3;
 let contractInstance;
@@ -37,6 +38,12 @@ let $transferMessageSuccess;
 let $transferMessageSuccessText;
 let $transferMessageDanger;
 let $transferMessageDangerText;
+
+let $transferFromForm;
+let $transferFromMessageSuccess;
+let $transferFromMessageSuccessText;
+let $transferFromMessageDanger;
+let $transferFromMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -81,6 +88,12 @@ const registerElements = () => {
     $transferMessageSuccessText = document.getElementById('transfer-result-success-text');
     $transferMessageDanger = document.getElementById('transfer-result-danger');
     $transferMessageDangerText = document.getElementById('transfer-result-danger-text');
+
+    $transferFromForm = document.getElementById('transferFrom');
+    $transferFromMessageSuccess = document.getElementById('transferFrom-result-success');
+    $transferFromMessageSuccessText = document.getElementById('transferFrom-result-success-text');
+    $transferFromMessageDanger = document.getElementById('transferFrom-result-danger');
+    $transferFromMessageDangerText = document.getElementById('transferFrom-result-danger-text');
 };
 
 const init = async () => {
@@ -138,11 +151,23 @@ const init = async () => {
             $transferMessageSuccessText,
             $transferMessageDanger,
             $transferMessageDangerText,
-            contractInstance,
-            connectedAccount
+            contractInstance
         );
         clearTransferFormModal();
         await registerTransferFormSubmit();
+
+        //transferFrom
+        registerTranferFromElements(
+            $transferFromForm,
+            $transferFromMessageSuccess,
+            $transferFromMessageSuccessText,
+            $transferFromMessageDanger,
+            $transferFromMessageDangerText,
+            contractInstance
+        );
+        clearTransferFromFormModal();
+        await registerTransferFromFormSubmit();
+
     } catch (err) {
         console.error(err.message);
     }
