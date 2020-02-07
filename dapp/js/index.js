@@ -1,15 +1,17 @@
-
 import Web3 from 'web3';
 import R2Token from '../../build/contracts/R2Token.json';
 
-import { setTokenInfo } from './functions/token.js';
-import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './functions/account.js';
+import { setTokenInfo } from './functions/token';
+import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './functions/account';
 
-import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './functions/balanceOf.js';
+import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './functions/balanceOf';
 import { registerAllowanceElements, clearAllowanceForm, allowanceFormSubmit } from './functions/allowance';
 
-import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './functions/transfer.js';
-import { registerTranferFromElements, clearTransferFromFormModal, registerTransferFromFormSubmit } from './functions/transferFrom.js';
+import { registerTranferElements, clearTransferFormModal, registerTransferFormSubmit } from './functions/transfer';
+import { registerTranferFromElements, clearTransferFromFormModal, registerTransferFromFormSubmit } from './functions/transferFrom';
+import { registerApproveElements, clearApproveFormModal, registerApproveFormSubmit } from './functions/approve';
+import { registerIncreaseApprovalElements, clearIncreaseApprovalFormModal, registerIncreaseApprovalFormSubmit } from './functions/increaseApproval';
+import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, registerDecreaseApprovalFormSubmit } from './functions/decreaseApproval';
 
 let web3;
 let contractInstance;
@@ -44,6 +46,24 @@ let $transferFromMessageSuccess;
 let $transferFromMessageSuccessText;
 let $transferFromMessageDanger;
 let $transferFromMessageDangerText;
+
+let $approveForm;
+let $approveMessageSuccess;
+let $approveMessageSuccessText;
+let $approveMessageDanger;
+let $approveMessageDangerText;
+
+let $increaseApprovalForm;
+let $increaseApprovalMessageSuccess;
+let $increaseApprovalMessageSuccessText;
+let $increaseApprovalMessageDanger;
+let $increaseApprovalMessageDangerText;
+
+let $decreaseApprovalForm;
+let $decreaseApprovalMessageSuccess;
+let $decreaseApprovalMessageSuccessText;
+let $decreaseApprovalMessageDanger;
+let $decreaseApprovalMessageDangerText;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -94,6 +114,24 @@ const registerElements = () => {
     $transferFromMessageSuccessText = document.getElementById('transferFrom-result-success-text');
     $transferFromMessageDanger = document.getElementById('transferFrom-result-danger');
     $transferFromMessageDangerText = document.getElementById('transferFrom-result-danger-text');
+
+    $approveForm = document.getElementById('approve');
+    $approveMessageSuccess = document.getElementById('approve-result-success');
+    $approveMessageSuccessText = document.getElementById('approve-result-success-text');
+    $approveMessageDanger = document.getElementById('approve-result-danger');
+    $approveMessageDangerText = document.getElementById('approve-result-danger-text');
+
+    $increaseApprovalForm = document.getElementById('increaseApproval');
+    $increaseApprovalMessageSuccess = document.getElementById('increaseApproval-result-success');
+    $increaseApprovalMessageSuccessText = document.getElementById('increaseApproval-result-success-text');
+    $increaseApprovalMessageDanger = document.getElementById('increaseApproval-result-danger');
+    $increaseApprovalMessageDangerText = document.getElementById('increaseApproval-result-danger-text');
+
+    $decreaseApprovalForm = document.getElementById('decreaseApproval');
+    $decreaseApprovalMessageSuccess = document.getElementById('decreaseApproval-result-success');
+    $decreaseApprovalMessageSuccessText = document.getElementById('decreaseApproval-result-success-text');
+    $decreaseApprovalMessageDanger = document.getElementById('decreaseApproval-result-danger');
+    $decreaseApprovalMessageDangerText = document.getElementById('decreaseApproval-result-danger-text');
 };
 
 const init = async () => {
@@ -167,6 +205,42 @@ const init = async () => {
         );
         clearTransferFromFormModal();
         await registerTransferFromFormSubmit();
+
+        //approve
+        registerApproveElements(
+            $approveForm,
+            $approveMessageSuccess,
+            $approveMessageSuccessText,
+            $approveMessageDanger,
+            $approveMessageDangerText,
+            contractInstance
+        );
+        clearApproveFormModal();
+        await registerApproveFormSubmit();
+
+        //increase approval
+        registerIncreaseApprovalElements(
+            $increaseApprovalForm,
+            $increaseApprovalMessageSuccess,
+            $increaseApprovalMessageSuccessText,
+            $increaseApprovalMessageDanger,
+            $increaseApprovalMessageDangerText,
+            contractInstance
+        );
+        clearIncreaseApprovalFormModal();
+        await registerIncreaseApprovalFormSubmit();
+
+         //decrease approval
+         registerDecreaseApprovalElements(
+            $decreaseApprovalForm,
+            $decreaseApprovalMessageSuccess,
+            $decreaseApprovalMessageSuccessText,
+            $decreaseApprovalMessageDanger,
+            $decreaseApprovalMessageDangerText,
+            contractInstance
+        );
+        clearDecreaseApprovalFormModal();
+        await registerDecreaseApprovalFormSubmit();
 
     } catch (err) {
         console.error(err.message);

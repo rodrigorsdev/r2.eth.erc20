@@ -35,9 +35,9 @@
                             Approve
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Approve</a>
-                            <a class="dropdown-item" href="#">Increase approval</a>
-                            <a class="dropdown-item" href="#">Decrease approval</a>
+                            <a class="dropdown-item" href="#approveModal" data-toggle="modal">Approve</a>
+                            <a class="dropdown-item" href="#increaseApprovalModal" data-toggle="modal">Increase approval</a>
+                            <a class="dropdown-item" href="#decreaseApprovalModal" data-toggle="modal">Decrease approval</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -189,6 +189,111 @@
                             </div>
                             <div id="transferFrom-result-danger" class="alert alert-danger">
                                 <span id="transferFrom-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="approveModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="approve">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Approve</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Spender</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Value</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="approve-result-success" class="alert alert-success">
+                                <span id="approve-result-success-text"></span>
+                            </div>
+                            <div id="approve-result-danger" class="alert alert-danger">
+                                <span id="approve-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="increaseApprovalModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="increaseApproval">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Increase Approval</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Spender</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Added value</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="increaseApproval-result-success" class="alert alert-success">
+                                <span id="increaseApproval-result-success-text"></span>
+                            </div>
+                            <div id="increaseApproval-result-danger" class="alert alert-danger">
+                                <span id="increaseApproval-result-danger-text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="decreaseApprovalModal" role="dialog">
+            <div class="modal-dialog">
+                <form id="decreaseApproval">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Decrease Approval</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Spender</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Subtracted Value</label>
+                                <input type="text" class="form-control"></input>
+                            </div>
+                            <div id="decreaseApproval-result-success" class="alert alert-success">
+                                <span id="decreaseApproval-result-success-text"></span>
+                            </div>
+                            <div id="decreaseApproval-result-danger" class="alert alert-danger">
+                                <span id="decreaseApproval-result-danger-text"></span>
                             </div>
                         </div>
                         <div class="modal-footer">
