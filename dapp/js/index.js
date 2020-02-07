@@ -16,7 +16,7 @@ import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, regis
 import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './functions/mintTo';
 import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './functions/burnFrom';
 
-import { registerLifecycleElements,clearLifecycleFormModal, getLifeciclyStatus, registerLifecycleFormSubmit } from './functions/lifecycle';
+import { registerLifecycleElements, getLifecycleStatus, registerLifecycleFormSubmit } from './functions/lifecycle';
 
 let web3;
 let contractInstance;
@@ -86,10 +86,8 @@ let $lifecycleForm;
 let $lifecycleStatus;
 let $lifecycleButtons;
 let $lifecycleStatusInput;
-let $lifecycleMessageSuccess;
-let $lifecycleMessageSuccessText;
-let $lifecycleMessageDanger;
-let $lifecycleMessageDangerText;
+let $lifecycleStatusIndex;
+let $lifecycleStatusIndexDiv;
 
 const initWeb3 = async () => {
     if (typeof web3 !== 'undefined') {
@@ -175,10 +173,8 @@ const registerElements = () => {
     $lifecycleStatus = document.getElementById('lifecycleStatus');
     $lifecycleButtons = document.getElementById('lifecycleButtons');
     $lifecycleStatusInput = document.getElementById('lifecycleStatusInput');
-    $lifecycleMessageSuccess = document.getElementById('lifecycle-result-success');
-    $lifecycleMessageSuccessText = document.getElementById('lifecycle-result-success-text');
-    $lifecycleMessageDanger = document.getElementById('lifecycle-result-danger');
-    $lifecycleMessageDangerText = document.getElementById('lifecycle-result-danger-text');
+    $lifecycleStatusIndex = document.getElementById('lifecycleStatusIndex');
+    $lifecycleStatusIndexDiv = document.getElementById('lifecycleStatusIndexDiv');
 };
 
 const init = async () => {
@@ -319,14 +315,11 @@ const init = async () => {
             $lifecycleStatus,
             $lifecycleButtons,
             $lifecycleStatusInput,
-            $lifecycleMessageSuccess,
-            $lifecycleMessageSuccessText,
-            $lifecycleMessageDanger,
-            $lifecycleMessageDangerText,
+            $lifecycleStatusIndex,
+            $lifecycleStatusIndexDiv,
             contractInstance
         );
-        clearLifecycleFormModal();
-        await getLifeciclyStatus();
+        await getLifecycleStatus();
         await registerLifecycleFormSubmit();
 
     } catch (err) {

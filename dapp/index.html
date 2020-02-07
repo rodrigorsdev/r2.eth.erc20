@@ -55,11 +55,21 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            Admin
+                            Lifecycle
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Roles</a>
-                            <a class="dropdown-item" href="#lifecycleModal" data-toggle="modal">Lifecycle</a>
+                            <a class="dropdown-item" href="#lifecycleModal" data-toggle="modal">Status</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Roles
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Verify</a>
+                            <a class="dropdown-item" href="#">Add</a>
+                            <a class="dropdown-item" href="#">Remove</a>
                         </div>
                     </li>
                 </ul>
@@ -71,6 +81,13 @@
     </nav>
     <br />
     <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="lifecycleStatusIndexDiv" class="alert">
+                    <b>Status:</b><span id="lifecycleStatusIndex"></span>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-8">
                 <div class="alert alert-secondary">
@@ -392,12 +409,6 @@
                                 Current status: <span id="lifecycleStatus"></span>
                             </p>
                             <input type="hidden" id="lifecycleStatusInput" />
-                            <div id="lifecycle-result-success" class="alert alert-success">
-                                <span id="lifecycle-result-success-text"></span>
-                            </div>
-                            <div id="lifecycle-result-danger" class="alert alert-danger">
-                                <span id="lifecycle-result-danger-text"></span>
-                            </div>
                         </div>
                         <div id="lifecycleButtons" class="modal-footer">
                         </div>
