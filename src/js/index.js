@@ -1,7 +1,7 @@
-import Web3 from 'web3';
-import R2Token from '../../build/contracts/R2Token.json';
+import { initEthers } from './connection/ethers';
+import { initEthersContract } from './connection/contract';
 
-import { setTokenInfo } from './token/token';
+import { registerTokenElements, setTokenInfo, setTotalSupply } from './token/token';
 import { registerConnectedWalletElements, setConnectedWallet, connectedAccount, setConnectedWalletBalance } from './token/account';
 
 import { registerBalanceOfElements, clearBalanceOfForm, balanceOfFormSubmit } from './token/balanceOf';
@@ -22,8 +22,11 @@ import { registerVerifyRoleElements, clearVerifyRoleFormModal, registerVerifyRol
 import { registerAddRoleElements, clearAddRoleFormModal, registerAddRoleFormSubmit } from './roles/AddRole';
 import { registerRemoveRoleElements, clearRemoveRoleFormModal, registerRemoveRoleFormSubmit } from './roles/removeRole';
 
-let web3;
+let ethers;
 let contractInstance;
+
+let $connectedNetwork;
+let $contractAddress;
 
 let $tokenName;
 let $tokenTotalsupply;
@@ -111,25 +114,10 @@ let $removeRoleMessageSuccessText;
 let $removeRoleMessageDanger;
 let $removeRoleMessageDangerText;
 
-const initWeb3 = async () => {
-    if (typeof web3 !== 'undefined') {
-        return new Web3(web3.currentProvider);
-    } else {
-        return new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-    }
-};
-
-const initContract = () => {
-    const deploymentKey = Object.keys(R2Token.networks)[0];
-    return new web3.eth.Contract(
-        R2Token.abi,
-        R2Token
-            .networks[deploymentKey]
-            .address
-    );
-};
-
 const registerElements = () => {
+    $connectedNetwork = document.getElementById('connectedNetwork');
+    $contractAddress = document.getElementById('contractAddressIndex');
+
     $tokenName = document.getElementById('tokenName');
     $tokenTotalsupply = document.getElementById('tokenTotalsupply');
     $tokenSymbol = document.getElementById('tokenSymbol');
@@ -220,21 +208,22 @@ const registerElements = () => {
 const init = async () => {
     try {
 
-        registerElements();
-
         //token
-        await setTokenInfo(
+        registerTokenElements(
             $tokenName,
             $tokenTotalsupply,
             $tokenSymbol,
             contractInstance
         );
+        await setTokenInfo();
+        await setTotalSupply();
 
         //account
         registerConnectedWalletElements(
             $walletAddress,
             $walletBalance,
-            web3,
+            $connectedNetwork,
+            ethers,
             contractInstance
         );
         await setConnectedWallet();
@@ -349,7 +338,7 @@ const init = async () => {
         clearBurnFromFormModal();
         await registerBurnFromFormSubmit();
 
-        //lifecycle
+        lifecycle
         registerLifecycleElements(
             $lifecycleForm,
             $lifecycleStatus,
@@ -403,8 +392,21 @@ const init = async () => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
-    web3 = await initWeb3();
-    contractInstance = initContract();
+const mmAccountChanged = async () => {
+    console.log('account changed');
+    await initDapp();
+};
+
+const initDapp = async () => {
+
+    registerElements();
+
+    ethers = await initEthers(mmAccountChanged, $connectedNetwork);
+    contractInstance = initEthersContract(ethers, $contractAddress);
+
     await init();
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await initDapp();
 });

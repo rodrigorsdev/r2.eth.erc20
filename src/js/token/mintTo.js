@@ -1,4 +1,5 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance } from './account';
+import { setTotalSupply } from './token';
 import { setMessage } from '../util/message';
 
 let $mintToForm;
@@ -44,8 +45,7 @@ export const registerMintToFormSubmit = async () => {
         const amount = Number(e.target.elements[2].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.mintTo(to, amount).send({ from: connectedAccountAddress });
+            await contractInstance.mintTo(to, amount);
             messageType = 'success';
             message = 'mintTo success';
         } catch (err) {
@@ -59,6 +59,8 @@ export const registerMintToFormSubmit = async () => {
             $mintToMessageDangerText,
             messageType,
             message);
+
+        await setTotalSupply();
 
         await setConnectedWalletBalance();
     });

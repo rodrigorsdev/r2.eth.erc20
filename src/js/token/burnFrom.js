@@ -1,4 +1,5 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance } from './account';
+import { setTotalSupply } from './token';
 import { setMessage } from '../util/message';
 
 let $burnFromForm;
@@ -44,8 +45,7 @@ export const registerBurnFromFormSubmit = async () => {
         const amount = Number(e.target.elements[2].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.burnFrom(from, amount).send({ from: connectedAccountAddress });
+            await contractInstance.burnFrom(from, amount);
             messageType = 'success';
             message = 'burnFrom success';
         } catch (err) {
@@ -59,6 +59,8 @@ export const registerBurnFromFormSubmit = async () => {
             $burnFromMessageDangerText,
             messageType,
             message);
+
+        await setTotalSupply();
 
         await setConnectedWalletBalance();
     });

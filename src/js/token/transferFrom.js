@@ -1,4 +1,4 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance } from './account';
 import { setMessage } from '../util/message';
 
 let $transferFromForm;
@@ -45,8 +45,7 @@ export const registerTransferFromFormSubmit = async () => {
         const value = Number(e.target.elements[3].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.transferFrom(from, to, value).send({ from: connectedAccountAddress });
+            await contractInstance.transferFrom(from, to, value);
             messageType = 'success';
             message = 'transfer from success';
         } catch (err) {

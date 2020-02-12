@@ -1,5 +1,3 @@
-import { connectedAccount } from '../token/account';
-
 let $lifecycleForm;
 let $lifecycleStatus;
 let $lifecycleButtons;
@@ -35,9 +33,9 @@ export const getLifecycleStatus = async () => {
 
     $lifecycleStatusIndexDiv.classList.remove(alertDanger);
     $lifecycleStatusIndexDiv.classList.remove(alertSuccess);
-    
-    const result = await contractInstance.methods.paused().call();
-    
+
+    const result = await contractInstance.paused();
+
     if (result === false) {
         status = 'running';
         alert = alertSuccess;
@@ -47,7 +45,7 @@ export const getLifecycleStatus = async () => {
     $lifecycleStatus.innerHTML = status;
     $lifecycleStatusIndex.innerHTML = ' ' + status;
     $lifecycleStatusIndexDiv.classList.add(alert);
-    
+
     setStatusButton();
 };
 
@@ -76,12 +74,11 @@ export const registerLifecycleFormSubmit = async () => {
         const status = e.target.elements[1].value;
 
         try {
-            const connectedAccountAddress = await connectedAccount();
 
             if (status === 'paused') {
-                await contractInstance.methods.unpause().send({ from: connectedAccountAddress });
+                await contractInstance.unpause();
             } else if (status === 'running') {
-                await contractInstance.methods.pause().send({ from: connectedAccountAddress });
+                await contractInstance.pause();
             }
         } catch (err) {
             console.error('lifecycle error: ' + err.message);

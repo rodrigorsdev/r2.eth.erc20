@@ -1,5 +1,6 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
 import { setMessage } from '../util/message';
+import { setConnectedWalletBalance } from '../token/account';
+
 
 let $transferForm;
 let $transferMessageSuccess;
@@ -44,8 +45,7 @@ export const registerTransferFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.transfer(to, value).send({ from: connectedAccountAddress });
+            await contractInstance.transfer(to, value);
             messageType = 'success';
             message = 'transfer success';
         } catch (err) {

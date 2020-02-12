@@ -1,4 +1,3 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
 import { setMessage } from '../util/message';
 
 let $increaseApprovalForm;
@@ -44,8 +43,7 @@ export const registerIncreaseApprovalFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.increaseApproval(spender, value).send({ from: connectedAccountAddress });
+            await contractInstance.increaseApproval(spender, value);
             messageType = 'success';
             message = 'increaseApproval success';
         } catch (err) {
@@ -59,7 +57,5 @@ export const registerIncreaseApprovalFormSubmit = async () => {
             $increaseApprovalMessageDangerText,
             messageType,
             message);
-
-        await setConnectedWalletBalance();
     });
 };

@@ -41,7 +41,7 @@ export const balanceOfFormSubmit = async () => {
 
         try {
             const wallet = e.target.elements[0].value;
-            const balance = await contractInstance.methods.balanceOf(wallet).call();
+            const balance = await contractInstance.balanceOf(wallet);
 
             messageType = 'success';
             message = 'balance of ' + wallet + ' is ' + balance;

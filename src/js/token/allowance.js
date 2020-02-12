@@ -1,4 +1,3 @@
-import { connectedAccount } from './account';
 import { setMessage } from '../util/message';
 
 let $allowanceForm;
@@ -45,8 +44,7 @@ export const allowanceFormSubmit = async () => {
             const owner = e.target.elements[0].value;
             const spender = e.target.elements[1].value;
 
-            const connectedAccountAddress = await connectedAccount();
-            const allowance = await contractInstance.methods.allowance(owner, spender).send({ from: connectedAccountAddress });
+            const allowance = await contractInstance.allowance(owner, spender);
 
             const allowanceNumber = Number(allowance);
 

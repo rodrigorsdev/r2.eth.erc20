@@ -1,4 +1,4 @@
-import { connectedAccount, setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance } from './account';
 import { setMessage } from '../util/message';
 
 let $approveForm;
@@ -44,8 +44,7 @@ export const registerApproveFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-            await contractInstance.methods.approve(spender, value).send({ from: connectedAccountAddress });
+            await contractInstance.approve(spender, value);
             messageType = 'success';
             message = 'approve success';
         } catch (err) {
