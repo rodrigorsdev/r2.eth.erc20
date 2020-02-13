@@ -46,19 +46,19 @@ export const registerVerifyRoleFormSubmit = async () => {
         try {
             if (role === 'admin') {
                 result = await contractInstance.isAdmin(address);
-                message = 'is admin: ' + result;
+                message = `Is admin: ${result}`;
             } else if (role === 'burner') {
                 result = await contractInstance.isBurner(address);
-                message = 'is burner: ' + result;
+                message = `Is burner: ${result}`;
             } else if (role === 'minter') {
                 result = await contractInstance.isMinter(address);
-                message = 'is minter: ' + result;
+                message = `Is minter: ${result}`;
             }
 
             messageType = 'success';
 
         } catch (err) {
-            message = 'verifyRole error: ' + err.message;
+            message = `VerifyRole error: ${err.message}`;
         }
 
         setMessage(

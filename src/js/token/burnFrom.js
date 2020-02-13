@@ -64,7 +64,7 @@ export const registerBurnFromFormSubmit = async () => {
                 message = 'Contract is paused!';
             }
         } catch (err) {
-            message = 'BurnFrom error: ' + err.message;
+            message = `BurnFrom error: ${err.message}`;
         }
 
         setMessage(

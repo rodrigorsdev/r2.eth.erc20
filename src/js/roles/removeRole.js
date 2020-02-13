@@ -51,13 +51,13 @@ export const registerRemoveRoleFormSubmit = async () => {
             if (isAdminResult) {
                 if (role === 'admin') {
                     await contractInstance.removeAdmin(address);
-                    message = address + ' removed from admin';
+                    message = `${address} removed from admin`;
                 } else if (role === 'burner') {
                     await contractInstance.removeBurner(address);
-                    message = address + ' removed from burner';
+                    message = `${address} removed from burner`;
                 } else if (role === 'minter') {
                     await contractInstance.removeMinter(address);
-                    message = address + ' removed from minter';;
+                    message = `${address} removed from minter`;
                 }
 
                 messageType = 'success';
@@ -66,7 +66,7 @@ export const registerRemoveRoleFormSubmit = async () => {
             }
 
         } catch (err) {
-            message = 'removeRole error: ' + err.message;
+            message = `RemoveRole error: ${err.message}`;
         }
 
         setMessage(

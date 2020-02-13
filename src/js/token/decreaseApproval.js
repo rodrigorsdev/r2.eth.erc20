@@ -53,7 +53,7 @@ export const registerDecreaseApprovalFormSubmit = async () => {
                 message = 'Contract is paused!';
             }
         } catch (err) {
-            message = 'DecreaseApproval error: ' + err.message;
+            message = `DecreaseApproval error: ${err.message}`;
         }
 
         setMessage(

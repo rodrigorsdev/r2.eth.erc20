@@ -64,7 +64,7 @@ export const registerMintToFormSubmit = async () => {
                 message = 'Contract is paused!';
             }
         } catch (err) {
-            message = 'MintTo error: ' + err.message;
+            message = `MintTo error: ${err.message}`;
         }
 
         setMessage(

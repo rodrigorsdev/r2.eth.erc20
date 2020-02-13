@@ -43,9 +43,9 @@ export const balanceOfFormSubmit = async () => {
             const balance = await contractInstance.balanceOf(wallet);
 
             messageType = 'success';
-            message = 'balanceOf ' + wallet + ' is ' + balance;
+            message = `BalanceOf ${wallet} is ${balance}`;
         } catch (err) {
-            message = 'balanceOf error: ' + err.message;
+            message = `BalanceOf error: ${err.message}`;
         }
 
         setMessage(

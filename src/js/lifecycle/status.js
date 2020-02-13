@@ -109,7 +109,7 @@ export const registerLifecycleFormSubmit = async () => {
                 );
             }
         } catch (err) {
-            console.error('lifecycle error: ' + err.message);
+            console.error(`Lifecycle error: ${err.message}`);
         }
 
         $lifecycleButtons.innerHTML = '';

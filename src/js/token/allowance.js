@@ -53,9 +53,9 @@ export const allowanceFormSubmit = async () => {
             }
 
             messageType = 'success';
-            message = 'owner ' + owner + ' spender ' + spender + ' allowance ' + allowanceResult;
+            message = `Owner ${owner} spender ${spender} allowance ${allowanceResult}`;
         } catch (err) {
-            message = 'allowance error: ' + err.message;
+            message = `Allowance error: ${err.message}`;
         }
 
         setMessage(

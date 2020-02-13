@@ -55,7 +55,7 @@ export const registerTransferFromFormSubmit = async () => {
                 message = 'Contract is paused!';
             }
         } catch (err) {
-            message = 'TransferFrom error: ' + err.message;
+            message = `TransferFrom error: ${err.message}`;
         }
 
         setMessage(

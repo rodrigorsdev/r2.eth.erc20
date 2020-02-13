@@ -51,13 +51,13 @@ export const registerAddRoleFormSubmit = async () => {
             if (isAdminResult) {
                 if (role === 'admin') {
                     await contractInstance.addAdmin(address);
-                    message = address + ' added from admin';
+                    message = `${address} added from admin`;
                 } else if (role === 'burner') {
                     await contractInstance.addBurner(address);
-                    message = address + ' added from burner';
+                    message = `${address} added from burner`;
                 } else if (role === 'minter') {
                     await contractInstance.addMinter(address);
-                    message = address + ' added from minter';;
+                    message = `${address} added from minter`;;
                 }
 
                 messageType = 'success';
@@ -66,7 +66,7 @@ export const registerAddRoleFormSubmit = async () => {
             }
 
         } catch (err) {
-            message = 'AddRole error: ' + err.message;
+            message = `$AddRole error: ${err.message}`;
         }
 
         setMessage(

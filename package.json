@@ -15,16 +15,17 @@
     "truffle-assertions": "^0.9.2"
   },
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "ethers": "^4.0.44",
-    "fs": "0.0.1-security",
-    "popper.js": "^1.16.1",
-    "truffle-hdwallet-provider": "^1.0.17",
     "@fortawesome/fontawesome-free": "5.10.2",
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
+    "css-loader": "^3.4.2",
     "datatables.net-bs4": "1.10.19",
+    "dotenv": "^8.2.0",
+    "ethers": "^4.0.44",
+    "fs": "0.0.1-security",
     "jquery": "3.4.1",
-    "jquery.easing": "^1.4.1"
+    "jquery.easing": "^1.4.1",
+    "popper.js": "^1.16.1",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }

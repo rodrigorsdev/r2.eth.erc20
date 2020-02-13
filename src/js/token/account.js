@@ -33,7 +33,7 @@ export const setConnectedWalletBalance = async () => {
     const connectedAccountAddress = await connectedAccount();
     const walletBalance = await contractInstance.balanceOf(connectedAccountAddress);
     const tokenSymbol = await contractInstance.symbol();
-    $walletBalance.innerHTML = walletBalance + ' ' + tokenSymbol;
+    $walletBalance.innerHTML = `${walletBalance} ${tokenSymbol}`;
 };
 
 const setConnectedNetwork = (account) => {
@@ -56,5 +56,5 @@ const setConnectedNetwork = (account) => {
             networkDescription = 'Develop';
             break;
     }
-    $connectedNetwork.innerHTML = ' ' + networkDescription;
+    $connectedNetwork.innerHTML = ` ${networkDescription}`;
 };
