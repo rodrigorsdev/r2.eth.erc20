@@ -1,6 +1,8 @@
-import { setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance, connectedAccount } from './account';
 import { setTotalSupply } from './token';
 import { setMessage } from '../util/message';
+import { paused } from '../lifecycle/status';
+import { isMinter } from '../roles/verifyRole';
 
 let $mintToForm;
 let $mintToMessageSuccess;
@@ -45,11 +47,24 @@ export const registerMintToFormSubmit = async () => {
         const amount = Number(e.target.elements[2].value);
 
         try {
-            await contractInstance.mintTo(to, amount);
-            messageType = 'success';
-            message = 'mintTo success';
+            const pausedResult = await paused();
+            if (pausedResult === false) {
+
+                const connectedAccountResult = await connectedAccount();
+                const isMinterResult = await isMinter(connectedAccountResult);
+
+                if (isMinterResult) {
+                    await contractInstance.mintTo(to, amount);
+                    messageType = 'success';
+                    message = 'MintTo success';
+                } else {
+                    message = 'You do not have an Minter Role defined!';
+                }
+            } else {
+                message = 'Contract is paused!';
+            }
         } catch (err) {
-            message = 'mintTo error: ' + err.message;
+            message = 'MintTo error: ' + err.message;
         }
 
         setMessage(

@@ -1,5 +1,6 @@
 import { setMessage } from '../util/message';
 import { connectedAccount } from '../token/account';
+import { isAdmin } from '../roles/verifyRole';
 
 let $addRoleForm;
 let $addRoleMessageSuccess;
@@ -44,23 +45,28 @@ export const registerAddRoleFormSubmit = async () => {
         const address = e.target.elements[2].value;
 
         try {
-            const connectedAccountAddress = await connectedAccount();
+            const connectedAccountResult = await connectedAccount();
+            const isAdminResult = await isAdmin(connectedAccountResult);
 
-            if (role === 'admin') {
-                await contractInstance.methods.addAdmin(address).send({ from: connectedAccountAddress });
-                message = address + ' added from admin';
-            } else if (role === 'burner') {
-                await contractInstance.methods.addBurner(address).send({ from: connectedAccountAddress });
-                message = address + ' added from burner';
-            } else if (role === 'minter') {
-                await contractInstance.methods.addMinter(address).send({ from: connectedAccountAddress });
-                message = address + ' added from minter';;
+            if (isAdminResult) {
+                if (role === 'admin') {
+                    await contractInstance.addAdmin(address);
+                    message = address + ' added from admin';
+                } else if (role === 'burner') {
+                    await contractInstance.addBurner(address);
+                    message = address + ' added from burner';
+                } else if (role === 'minter') {
+                    await contractInstance.addMinter(address);
+                    message = address + ' added from minter';;
+                }
+
+                messageType = 'success';
+            } else {
+                message = 'You do not have an Admin Role defined!';
             }
 
-            messageType = 'success';
-
         } catch (err) {
-            message = 'addRole error: ' + err.message;
+            message = 'AddRole error: ' + err.message;
         }
 
         setMessage(

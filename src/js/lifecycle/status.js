@@ -1,9 +1,15 @@
+import { isAdmin } from '../roles/verifyRole';
+import { setMessage } from '../util/message';
+import { connectedAccount } from '../token/account';
+
 let $lifecycleForm;
 let $lifecycleStatus;
 let $lifecycleButtons;
 let $lifecycleStatusInput;
 let $lifecycleStatusIndex;
 let $lifecycleStatusIndexDiv;
+let $lifecycleMessageDanger;
+let $lifecycleMessageDangerText;
 
 let contractInstance;
 
@@ -14,6 +20,8 @@ export const registerLifecycleElements = (
     _lifecycleStatusInput,
     _lifecycleStatusIndex,
     _lifecycleStatusIndexDiv,
+    _lifecycleMessageDanger,
+    _lifecycleMessageDangerText,
     _contractInstance
 ) => {
     $lifecycleForm = _lifecycleForm;
@@ -22,7 +30,14 @@ export const registerLifecycleElements = (
     $lifecycleStatusInput = _lifecycleStatusInput;
     $lifecycleStatusIndex = _lifecycleStatusIndex;
     $lifecycleStatusIndexDiv = _lifecycleStatusIndexDiv;
+    $lifecycleMessageDanger = _lifecycleMessageDanger;
+    $lifecycleMessageDangerText = _lifecycleMessageDangerText;
     contractInstance = _contractInstance;
+};
+
+export const clearLifecycleModal = () => {
+    $lifecycleMessageDanger.style.display = 'none';
+    $lifecycleMessageDangerText.innerHTML = '';
 };
 
 export const getLifecycleStatus = async () => {
@@ -74,11 +89,24 @@ export const registerLifecycleFormSubmit = async () => {
         const status = e.target.elements[1].value;
 
         try {
+            const connectedAccountResult = await connectedAccount();
+            const isAdminResult = await isAdmin(connectedAccountResult);
 
-            if (status === 'Paused') {
-                await contractInstance.unpause();
-            } else if (status === 'Running') {
-                await contractInstance.pause();
+            if (isAdminResult) {
+                if (status === 'Paused') {
+                    await contractInstance.unpause();
+                } else if (status === 'Running') {
+                    await contractInstance.pause();
+                }
+            } else {
+                setMessage(
+                    null,
+                    null,
+                    $lifecycleMessageDanger,
+                    $lifecycleMessageDangerText,
+                    'danger',
+                    'You do not have an Admin Role defined!'
+                );
             }
         } catch (err) {
             console.error('lifecycle error: ' + err.message);
@@ -88,4 +116,8 @@ export const registerLifecycleFormSubmit = async () => {
 
         await getLifecycleStatus();
     });
+};
+
+export const paused = async () => {
+    return await contractInstance.paused();
 };

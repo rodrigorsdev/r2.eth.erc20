@@ -1,6 +1,8 @@
-import { setConnectedWalletBalance } from './account';
+import { setConnectedWalletBalance, connectedAccount } from './account';
 import { setTotalSupply } from './token';
 import { setMessage } from '../util/message';
+import { paused } from '../lifecycle/status';
+import { isBurner } from '../roles/verifyRole';
 
 let $burnFromForm;
 let $burnFromMessageSuccess;
@@ -45,11 +47,24 @@ export const registerBurnFromFormSubmit = async () => {
         const amount = Number(e.target.elements[2].value);
 
         try {
-            await contractInstance.burnFrom(from, amount);
-            messageType = 'success';
-            message = 'burnFrom success';
+            const pausedResult = await paused();
+            if (pausedResult === false) {
+
+                const connectedAccountResult = await connectedAccount();
+                const isBurnerResult = await isBurner(connectedAccountResult);
+
+                if (isBurnerResult) {
+                    await contractInstance.burnFrom(from, amount);
+                    messageType = 'success';
+                    message = 'BurnFrom success!';
+                } else {
+                    message = 'You do not have an Burner Role defined!';
+                }
+            } else {
+                message = 'Contract is paused!';
+            }
         } catch (err) {
-            message = 'burnFrom error: ' + err.message;
+            message = 'BurnFrom error: ' + err.message;
         }
 
         setMessage(

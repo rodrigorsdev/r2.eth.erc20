@@ -56,7 +56,7 @@ export const registerVerifyRoleFormSubmit = async () => {
             }
 
             messageType = 'success';
-            
+
         } catch (err) {
             message = 'verifyRole error: ' + err.message;
         }
@@ -69,4 +69,16 @@ export const registerVerifyRoleFormSubmit = async () => {
             messageType,
             message);
     });
+};
+
+export const isAdmin = async (address) => {
+    return await contractInstance.isAdmin(address);
+};
+
+export const isMinter = async (address) => {
+    return await contractInstance.isMinter(address);
+};
+
+export const isBurner = async (address) => {
+    return await contractInstance.isBurner(address);
 };

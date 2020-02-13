@@ -1,6 +1,6 @@
 import { setMessage } from '../util/message';
 import { setConnectedWalletBalance } from '../token/account';
-
+import { paused } from '../lifecycle/status';
 
 let $transferForm;
 let $transferMessageSuccess;
@@ -45,11 +45,16 @@ export const registerTransferFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            await contractInstance.transfer(to, value);
-            messageType = 'success';
-            message = 'transfer success';
+            const pausedResult = await paused();
+            if (pausedResult === false) {
+                await contractInstance.transfer(to, value);
+                messageType = 'success';
+                message = 'Transfer success!';
+            } else {
+                message = 'Contract is paused!';
+            }
         } catch (err) {
-            message = 'transfer error: ' + err.message;
+            message = 'Transfer error: ' + err.message;
         }
 
         setMessage(

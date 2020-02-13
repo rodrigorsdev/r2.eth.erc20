@@ -1,4 +1,6 @@
 import { setMessage } from '../util/message';
+import { connectedAccount } from '../token/account';
+import { isAdmin } from '../roles/verifyRole';
 
 let $removeRoleForm;
 let $removeRoleMessageSuccess;
@@ -43,18 +45,25 @@ export const registerRemoveRoleFormSubmit = async () => {
         const address = e.target.elements[2].value;
 
         try {
-            if (role === 'admin') {
-                await contractInstance.removeAdmin(address);
-                message = address + ' removed from admin';
-            } else if (role === 'burner') {
-                await contractInstance.removeBurner(address);
-                message = address + ' removed from burner';
-            } else if (role === 'minter') {
-                await contractInstance.removeMinter(address);
-                message = address + ' removed from minter';;
-            }
+            const connectedAccountResult = await connectedAccount();
+            const isAdminResult = await isAdmin(connectedAccountResult);
 
-            messageType = 'success';
+            if (isAdminResult) {
+                if (role === 'admin') {
+                    await contractInstance.removeAdmin(address);
+                    message = address + ' removed from admin';
+                } else if (role === 'burner') {
+                    await contractInstance.removeBurner(address);
+                    message = address + ' removed from burner';
+                } else if (role === 'minter') {
+                    await contractInstance.removeMinter(address);
+                    message = address + ' removed from minter';;
+                }
+
+                messageType = 'success';
+            } else {
+                message = 'You do not have an Admin Role defined!';
+            }
 
         } catch (err) {
             message = 'removeRole error: ' + err.message;

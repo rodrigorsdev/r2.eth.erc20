@@ -1,4 +1,5 @@
 import { setMessage } from '../util/message';
+import { paused } from '../lifecycle/status';
 
 let $increaseApprovalForm;
 let $increaseApprovalMessageSuccess;
@@ -43,11 +44,16 @@ export const registerIncreaseApprovalFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            await contractInstance.increaseApproval(spender, value);
-            messageType = 'success';
-            message = 'increaseApproval success';
+            const pausedResult = await paused();
+            if (pausedResult === false) {
+                await contractInstance.increaseApproval(spender, value);
+                messageType = 'success';
+                message = 'IncreaseApproval success!';
+            } else {
+                message = 'Contract is paused!';
+            }
         } catch (err) {
-            message = 'increaseApproval error: ' + err.message;
+            message = 'IncreaseApproval error: ' + err.message;
         }
 
         setMessage(

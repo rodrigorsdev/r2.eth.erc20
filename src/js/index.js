@@ -16,7 +16,7 @@ import { registerDecreaseApprovalElements, clearDecreaseApprovalFormModal, regis
 import { registerMintToElements, clearMintToFormModal, registerMintToFormSubmit } from './token/mintTo';
 import { registerBurnFromElements, clearBurnFromFormModal, registerBurnFromFormSubmit } from './token/burnFrom';
 
-import { registerLifecycleElements, getLifecycleStatus, registerLifecycleFormSubmit } from './lifecycle/status';
+import { registerLifecycleElements, clearLifecycleModal, getLifecycleStatus, registerLifecycleFormSubmit } from './lifecycle/status';
 
 import { registerVerifyRoleElements, clearVerifyRoleFormModal, registerVerifyRoleFormSubmit } from './roles/verifyRole';
 import { registerAddRoleElements, clearAddRoleFormModal, registerAddRoleFormSubmit } from './roles/AddRole';
@@ -95,6 +95,8 @@ let $lifecycleButtons;
 let $lifecycleStatusInput;
 let $lifecycleStatusIndex;
 let $lifecycleStatusIndexDiv;
+let $lifecycleMessageDanger;
+let $lifecycleMessageDangerText;
 
 let $verifyRoleForm;
 let $verifyRoleMessageSuccess;
@@ -185,6 +187,8 @@ const registerElements = () => {
     $lifecycleStatusInput = document.getElementById('lifecycleStatusInput');
     $lifecycleStatusIndex = document.getElementById('lifecycleStatusIndex');
     $lifecycleStatusIndexDiv = document.getElementById('lifecycleStatusIndexDiv');
+    $lifecycleMessageDanger = document.getElementById('lifecycle-result-danger');
+    $lifecycleMessageDangerText = document.getElementById('lifecycle-result-danger-text');
 
     $verifyRoleForm = document.getElementById('verifyRole');
     $verifyRoleMessageSuccess = document.getElementById('verifyRole-result-success');
@@ -382,8 +386,11 @@ const init = async () => {
             $lifecycleStatusInput,
             $lifecycleStatusIndex,
             $lifecycleStatusIndexDiv,
+            $lifecycleMessageDanger,
+            $lifecycleMessageDangerText,
             contractInstance
         );
+        clearLifecycleModal();
         await getLifecycleStatus();
         await registerLifecycleFormSubmit();
     } catch (err) {

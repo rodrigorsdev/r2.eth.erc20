@@ -1,5 +1,6 @@
 import { setConnectedWalletBalance } from './account';
 import { setMessage } from '../util/message';
+import { paused } from '../lifecycle/status';
 
 let $approveForm;
 let $approveMessageSuccess;
@@ -44,11 +45,16 @@ export const registerApproveFormSubmit = async () => {
         const value = Number(e.target.elements[2].value);
 
         try {
-            await contractInstance.approve(spender, value);
-            messageType = 'success';
-            message = 'approve success';
+            const pausedResult = await paused();
+            if (pausedResult === false) {
+                await contractInstance.approve(spender, value);
+                messageType = 'success';
+                message = 'Approve success!';
+            } else {
+                message = 'Contract is paused!';
+            }
         } catch (err) {
-            message = 'approve error: ' + err.message;
+            message = 'Approve error: ' + err.message;
         }
 
         setMessage(
