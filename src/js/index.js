@@ -338,19 +338,6 @@ const init = async () => {
         clearBurnFromFormModal();
         await registerBurnFromFormSubmit();
 
-        lifecycle
-        registerLifecycleElements(
-            $lifecycleForm,
-            $lifecycleStatus,
-            $lifecycleButtons,
-            $lifecycleStatusInput,
-            $lifecycleStatusIndex,
-            $lifecycleStatusIndexDiv,
-            contractInstance
-        );
-        await getLifecycleStatus();
-        await registerLifecycleFormSubmit();
-
         //verifyRole
         registerVerifyRoleElements(
             $verifyRoleForm,
@@ -387,6 +374,18 @@ const init = async () => {
         clearRemoveRoleFormModal();
         await registerRemoveRoleFormSubmit();
 
+        //lifecycle
+        registerLifecycleElements(
+            $lifecycleForm,
+            $lifecycleStatus,
+            $lifecycleButtons,
+            $lifecycleStatusInput,
+            $lifecycleStatusIndex,
+            $lifecycleStatusIndexDiv,
+            contractInstance
+        );
+        await getLifecycleStatus();
+        await registerLifecycleFormSubmit();
     } catch (err) {
         console.error(err.message);
     }

@@ -1,553 +1,699 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>ERC20 Manager</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#"><span id="tokenName"></span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Transfer
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#transferModal" data-toggle="modal">Transfer</a>
-                            <a class="dropdown-item" href="#transferFromModal" data-toggle="modal">Transfer from</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Approve
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#approveModal" data-toggle="modal">Approve</a>
-                            <a class="dropdown-item" href="#increaseApprovalModal" data-toggle="modal">Increase
-                                approval</a>
-                            <a class="dropdown-item" href="#decreaseApprovalModal" data-toggle="modal">Decrease
-                                approval</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Mint/Burn
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#mintToModal" data-toggle="modal">Mint</a>
-                            <a class="dropdown-item" href="#burnFromModal" data-toggle="modal">Burn</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Lifecycle
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#lifecycleModal" data-toggle="modal">Status</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Roles
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#verifyRoleModal" data-toggle="modal">Verify</a>
-                            <a class="dropdown-item" href="#addRoleModal" data-toggle="modal">Add</a>
-                            <a class="dropdown-item" href="#removeRoleModal" data-toggle="modal">Remove</a>
-                        </div>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    Total supply: <span id="tokenTotalsupply"></span> <span id="tokenSymbol"></span>
-                </span>
-            </div>
-        </div>
-    </nav>
-    <br />
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="alert alert-primary">
-                    <b>Network:</b><span id="connectedNetwork"></span>
-                </div>
-            </div>
-            <div class="col-sm-7">
-                <div class="alert alert-primary">
-                    <b>Contract:</b><span id="contractAddressIndex"></span>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div id="lifecycleStatusIndexDiv" class="alert">
-                    <b>Status:</b><span id="lifecycleStatusIndex"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="alert alert-secondary">
-                    <b>Wallet:</b> <span id="walletAddress"></span>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="alert alert-secondary">
-                    <b>Balance:</b> <span id="walletBalance"></span><span id="walletBalanceSymbol"></span>
-                </div>
-            </div>
-        </div>
+<body id="page-top">
 
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                <form id="balanceOf">
-                    <h2>Balance of</h2>
-                    <div class="form-group">
-                        <label>Wallet</label>
-                        <input type="text" class="form-control"></input>
+    <div id="wrapper">
+
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    <span id="tokenName"></span>
+                </div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#balanceOfModal" data-toggle="modal">
+                    <i class="fas fa-fw fa-coins"></i>
+                    <span>Balance of</span></a>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#allowanceModal" data-toggle="modal">
+                    <i class="fas fa-fw fa-hand-holding-usd"></i>
+                    <span>Allowance</span></a>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <div class="sidebar-heading">
+                Transfer
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransfer"
+                    aria-expanded="true" aria-controls="collapseTransfer">
+                    <i class="fas fa-fw fa-exchange-alt"></i>
+                    <span>Transfers</span>
+                </a>
+                <div id="collapseTransfer" class="collapse" aria-labelledby="headingTransfer"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#transferModal" data-toggle="modal">Transfer</a>
+                        <a class="collapse-item" href="#transferFromModal" data-toggle="modal">Transfer from</a>
                     </div>
-                    <div class="form-group">
+                </div>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <div class="sidebar-heading">
+                Approvals
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseApprove"
+                    aria-expanded="true" aria-controls="collapseApprove">
+                    <i class="fas fa-fw fa-thumbs-up"></i>
+                    <span>Approvals</span>
+                </a>
+                <div id="collapseApprove" class="collapse" aria-labelledby="headingApprove"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#approveModal" data-toggle="modal">Approve</a>
+                        <a class="collapse-item" href="#increaseApprovalModal" data-toggle="modal">Increase approval</a>
+                        <a class="collapse-item" href="#decreaseApprovalModal" data-toggle="modal">Decrease approval</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <div class="sidebar-heading">
+                Mint/Burn
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMintBurn"
+                    aria-expanded="true" aria-controls="collapseMintBurn">
+                    <i class="fas fa-fw fa-burn"></i>
+                    <span>Mint/Burn</span>
+                </a>
+                <div id="collapseMintBurn" class="collapse" aria-labelledby="headingMintBurn"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#mintToModal" data-toggle="modal">Mint to</a>
+                        <a class="collapse-item" href="#burnFromModal" data-toggle="modal">Burn from</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <div class="sidebar-heading">
+                Permission
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRoles"
+                    aria-expanded="true" aria-controls="collapseRoles">
+                    <i class="fas fa-fw fa-user-tag"></i>
+                    <span>Roles</span>
+                </a>
+                <div id="collapseRoles" class="collapse" aria-labelledby="headingRoles" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Permission roles:</h6>
+                        <a class="collapse-item" href="#verifyRoleModal" data-toggle="modal">Verify</a>
+                        <a class="collapse-item" href="#addRoleModal" data-toggle="modal">Add</a>
+                        <a class="collapse-item" href="#removeRoleModal" data-toggle="modal">Remove</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+
+            <div class="sidebar-heading">
+                Lifecycle
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#lifecycleModal" data-toggle="modal">
+                    <i class="fas fa-fw fa-circle"></i>
+                    <span>Status</span></a>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <i class="fas fa-file-contract"></i>&nbsp;
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 large" id="contractAddressIndex"></span>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <div>Total supply: <span id="tokenTotalsupply"></span> <span id="tokenSymbol"></span></div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <i class="fas fa-wallet"></i>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">&nbsp;&nbsp;<span
+                                    id="walletAddress"></span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Balance</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <span id="walletBalance"></span><span id="walletBalanceSymbol"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Network</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <span id="connectedNetwork"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-ethereum fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div id="lifecycleStatusIndexDiv" class="card shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Status</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <span id="lifecycleStatusIndex"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-hand-paper fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="balanceOfModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="balanceOf">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Balance of</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Wallet</label>
+                            <input type="text" class="form-control"></input>
+                        </div>
+                        <div id="balanceOf-result-success" class="alert alert-success">
+                            <span id="balanceOf-result-success-text"></span>
+                        </div>
+                        <div id="balanceOf-result-danger" class="alert alert-danger">
+                            <span id="balanceOf-result-danger-text"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                    <div id="balanceOf-result-success" class="alert alert-success">
-                        <span id="balanceOf-result-success-text"></span>
-                    </div>
-                    <div id="balanceOf-result-danger" class="alert alert-danger">
-                        <span id="balanceOf-result-danger-text"></span>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                <form id="allowance">
-                    <h2>Allowance</h2>
-                    <div class="form-group">
-                        <label>Owner</label>
-                        <input type="text" class="form-control"></input>
+    <div class="modal fade" id="allowanceModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="allowance">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Allowance</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label>Spender</label>
-                        <input type="text" class="form-control"></input>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Owner</label>
+                            <input type="text" class="form-control"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Spender</label>
+                            <input type="text" class="form-control"></input>
+                        </div>
+                        <div id="allowance-result-success" class="alert alert-success">
+                            <span id="allowance-result-success-text"></span>
+                        </div>
+                        <div id="allowance-result-danger" class="alert alert-danger">
+                            <span id="allowance-result-danger-text"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                    <div id="allowance-result-success" class="alert alert-success">
-                        <span id="allowance-result-success-text"></span>
-                    </div>
-                    <div id="allowance-result-danger" class="alert alert-danger">
-                        <span id="allowance-result-danger-text"></span>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="transferModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="transfer">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Transfer</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="transferModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="transfer">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Transfer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>To</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Value</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="transfer-result-success" class="alert alert-success">
-                                <span id="transfer-result-success-text"></span>
-                            </div>
-                            <div id="transfer-result-danger" class="alert alert-danger">
-                                <span id="transfer-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="transfer-result-success" class="alert alert-success">
+                            <span id="transfer-result-success-text"></span>
+                        </div>
+                        <div id="transfer-result-danger" class="alert alert-danger">
+                            <span id="transfer-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="transferFromModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="transferFrom">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Transfer from</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="transferFromModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="transferFrom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Transfer from</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>To</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>From</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Value</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="transferFrom-result-success" class="alert alert-success">
-                                <span id="transferFrom-result-success-text"></span>
-                            </div>
-                            <div id="transferFrom-result-danger" class="alert alert-danger">
-                                <span id="transferFrom-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>From</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" class="form-control"></input>
+                        </div>
+                        <div id="transferFrom-result-success" class="alert alert-success">
+                            <span id="transferFrom-result-success-text"></span>
+                        </div>
+                        <div id="transferFrom-result-danger" class="alert alert-danger">
+                            <span id="transferFrom-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="approveModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="approve">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Approve</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="approveModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="approve">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Approve</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Spender</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Spender</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Value</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="approve-result-success" class="alert alert-success">
-                                <span id="approve-result-success-text"></span>
-                            </div>
-                            <div id="approve-result-danger" class="alert alert-danger">
-                                <span id="approve-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="approve-result-success" class="alert alert-success">
+                            <span id="approve-result-success-text"></span>
+                        </div>
+                        <div id="approve-result-danger" class="alert alert-danger">
+                            <span id="approve-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="increaseApprovalModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="increaseApproval">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Increase Approval</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="increaseApprovalModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="increaseApproval">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Increase Approval</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Spender</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Spender</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Added value</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="increaseApproval-result-success" class="alert alert-success">
-                                <span id="increaseApproval-result-success-text"></span>
-                            </div>
-                            <div id="increaseApproval-result-danger" class="alert alert-danger">
-                                <span id="increaseApproval-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Added value</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="increaseApproval-result-success" class="alert alert-success">
+                            <span id="increaseApproval-result-success-text"></span>
+                        </div>
+                        <div id="increaseApproval-result-danger" class="alert alert-danger">
+                            <span id="increaseApproval-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="decreaseApprovalModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="decreaseApproval">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Decrease Approval</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="decreaseApprovalModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="decreaseApproval">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Decrease Approval</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Spender</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Spender</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Subtracted Value</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="decreaseApproval-result-success" class="alert alert-success">
-                                <span id="decreaseApproval-result-success-text"></span>
-                            </div>
-                            <div id="decreaseApproval-result-danger" class="alert alert-danger">
-                                <span id="decreaseApproval-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Subtracted Value</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="decreaseApproval-result-success" class="alert alert-success">
+                            <span id="decreaseApproval-result-success-text"></span>
+                        </div>
+                        <div id="decreaseApproval-result-danger" class="alert alert-danger">
+                            <span id="decreaseApproval-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="mintToModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="mintTo">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Mint to</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="mintToModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="mintTo">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mint to</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>To</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Amount</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="mintTo-result-success" class="alert alert-success">
-                                <span id="mintTo-result-success-text"></span>
-                            </div>
-                            <div id="mintTo-result-danger" class="alert alert-danger">
-                                <span id="mintTo-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="mintTo-result-success" class="alert alert-success">
+                            <span id="mintTo-result-success-text"></span>
+                        </div>
+                        <div id="mintTo-result-danger" class="alert alert-danger">
+                            <span id="mintTo-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="burnFromModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="burnFrom">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Burn from</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="burnFromModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="burnFrom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Burn from</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>From</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>From</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Amount</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="burnFrom-result-success" class="alert alert-success">
-                                <span id="burnFrom-result-success-text"></span>
-                            </div>
-                            <div id="burnFrom-result-danger" class="alert alert-danger">
-                                <span id="burnFrom-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="burnFrom-result-success" class="alert alert-success">
+                            <span id="burnFrom-result-success-text"></span>
+                        </div>
+                        <div id="burnFrom-result-danger" class="alert alert-danger">
+                            <span id="burnFrom-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="lifecycleModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="lifecycle">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Lifecycle</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="verifyRoleModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="verifyRole">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Verify Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select class="form-control">
+                                <option value="admin">Admin</option>
+                                <option value="burner">Burner</option>
+                                <option value="minter">Minter</option>
+                            </select>
                         </div>
-                        <div class="modal-body">
-                            <p>
-                                Current status: <span id="lifecycleStatus"></span>
-                            </p>
-                            <input type="hidden" id="lifecycleStatusInput" />
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div id="lifecycleButtons" class="modal-footer">
+                        <div id="verifyRole-result-success" class="alert alert-success">
+                            <span id="verifyRole-result-success-text"></span>
+                        </div>
+                        <div id="verifyRole-result-danger" class="alert alert-danger">
+                            <span id="verifyRole-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="verifyRoleModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="verifyRole">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Verify Role</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="addRoleModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="addRole">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select class="form-control">
+                                <option value="admin">Admin</option>
+                                <option value="burner">Burner</option>
+                                <option value="minter">Minter</option>
+                            </select>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="burner">Burner</option>
-                                    <option value="minter">Minter</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="verifyRole-result-success" class="alert alert-success">
-                                <span id="verifyRole-result-success-text"></span>
-                            </div>
-                            <div id="verifyRole-result-danger" class="alert alert-danger">
-                                <span id="verifyRole-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="addRole-result-success" class="alert alert-success">
+                            <span id="addRole-result-success-text"></span>
+                        </div>
+                        <div id="addRole-result-danger" class="alert alert-danger">
+                            <span id="addRole-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="addRoleModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="addRole">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Role</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="modal fade" id="removeRoleModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="removeRole">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select class="form-control">
+                                <option value="admin">Admin</option>
+                                <option value="burner">Burner</option>
+                                <option value="minter">Minter</option>
+                            </select>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="burner">Burner</option>
-                                    <option value="minter">Minter</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="addRole-result-success" class="alert alert-success">
-                                <span id="addRole-result-success-text"></span>
-                            </div>
-                            <div id="addRole-result-danger" class="alert alert-danger">
-                                <span id="addRole-result-danger-text"></span>
-                            </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control"></input>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div id="removeRole-result-success" class="alert alert-success">
+                            <span id="removeRole-result-success-text"></span>
+                        </div>
+                        <div id="removeRole-result-danger" class="alert alert-danger">
+                            <span id="removeRole-result-danger-text"></span>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="modal fade" id="removeRoleModal" role="dialog">
-            <div class="modal-dialog">
-                <form id="removeRole">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Remove Role</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="burner">Burner</option>
-                                    <option value="minter">Minter</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" class="form-control"></input>
-                            </div>
-                            <div id="removeRole-result-success" class="alert alert-success">
-                                <span id="removeRole-result-success-text"></span>
-                            </div>
-                            <div id="removeRole-result-danger" class="alert alert-danger">
-                                <span id="removeRole-result-danger-text"></span>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <script src="./js/libraries/jquery-3.3.1.slim.min.js"></script>
-        <script src="./js/libraries/popper.min.js"></script>
-        <script src="./js/libraries/bootstrap.min.js"></script>
-        <script src="./js/index.js"></script>
+    <div class="modal fade" id="lifecycleModal" role="dialog">
+        <div class="modal-dialog">
+            <form id="lifecycle">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lifecycle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Current status: <span id="lifecycleStatus"></span>
+                        </p>
+                        <input type="hidden" id="lifecycleStatusInput" />
+                    </div>
+                    <div id="lifecycleButtons" class="modal-footer">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="./js/index.js"></script>
 </body>
 
 </html>

@@ -33,7 +33,6 @@ export const clearBalanceOfForm = () => {
 
 export const balanceOfFormSubmit = async () => {
     $balanceOfForm.addEventListener('submit', async (e) => {
-
         e.preventDefault();
 
         let messageType = 'danger';
@@ -44,9 +43,9 @@ export const balanceOfFormSubmit = async () => {
             const balance = await contractInstance.balanceOf(wallet);
 
             messageType = 'success';
-            message = 'balance of ' + wallet + ' is ' + balance;
+            message = 'balanceOf ' + wallet + ' is ' + balance;
         } catch (err) {
-            message = 'transfer error: ' + err.message;
+            message = 'balanceOf error: ' + err.message;
         }
 
         setMessage(

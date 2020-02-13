@@ -26,9 +26,9 @@ export const registerLifecycleElements = (
 };
 
 export const getLifecycleStatus = async () => {
-    let status = 'paused';
-    let alertDanger = 'alert-danger';
-    let alertSuccess = 'alert-success';
+    let status = 'Paused';
+    let alertDanger = 'border-left-danger';
+    let alertSuccess = 'border-left-success';
     let alert = alertDanger;
 
     $lifecycleStatusIndexDiv.classList.remove(alertDanger);
@@ -37,7 +37,7 @@ export const getLifecycleStatus = async () => {
     const result = await contractInstance.paused();
 
     if (result === false) {
-        status = 'running';
+        status = 'Running';
         alert = alertSuccess;
     }
 
@@ -54,11 +54,11 @@ const setStatusButton = () => {
     button.type = 'submit';
     button.classList.add('btn');
 
-    if ($lifecycleStatusInput.value === 'running') {
+    if ($lifecycleStatusInput.value === 'Running') {
         //set pause button
         button.value = 'Pause';
         button.classList.add('btn-danger');
-    } else if ($lifecycleStatusInput.value === 'paused') {
+    } else if ($lifecycleStatusInput.value === 'Paused') {
         //set run button
         button.value = 'Run';
         button.classList.add('btn-primary');
@@ -75,9 +75,9 @@ export const registerLifecycleFormSubmit = async () => {
 
         try {
 
-            if (status === 'paused') {
+            if (status === 'Paused') {
                 await contractInstance.unpause();
-            } else if (status === 'running') {
+            } else if (status === 'Running') {
                 await contractInstance.pause();
             }
         } catch (err) {

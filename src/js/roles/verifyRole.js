@@ -45,13 +45,13 @@ export const registerVerifyRoleFormSubmit = async () => {
 
         try {
             if (role === 'admin') {
-                result = await contractInstance.methods.isAdmin(address).call();
+                result = await contractInstance.isAdmin(address);
                 message = 'is admin: ' + result;
             } else if (role === 'burner') {
-                result = await contractInstance.methods.isBurner(address).call();
+                result = await contractInstance.isBurner(address);
                 message = 'is burner: ' + result;
             } else if (role === 'minter') {
-                result = await contractInstance.methods.isMinter(address).call();
+                result = await contractInstance.isMinter(address);
                 message = 'is minter: ' + result;
             }
 

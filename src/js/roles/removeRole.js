@@ -1,5 +1,4 @@
 import { setMessage } from '../util/message';
-import { connectedAccount } from '../token/account';
 
 let $removeRoleForm;
 let $removeRoleMessageSuccess;
@@ -44,16 +43,14 @@ export const registerRemoveRoleFormSubmit = async () => {
         const address = e.target.elements[2].value;
 
         try {
-            const connectedAccountAddress = await connectedAccount();
-
             if (role === 'admin') {
-                await contractInstance.methods.removeAdmin(address).send({ from: connectedAccountAddress });
+                await contractInstance.removeAdmin(address);
                 message = address + ' removed from admin';
             } else if (role === 'burner') {
-                await contractInstance.methods.removeBurner(address).send({ from: connectedAccountAddress });
+                await contractInstance.removeBurner(address);
                 message = address + ' removed from burner';
             } else if (role === 'minter') {
-                await contractInstance.methods.removeMinter(address).send({ from: connectedAccountAddress });
+                await contractInstance.removeMinter(address);
                 message = address + ' removed from minter';;
             }
 
