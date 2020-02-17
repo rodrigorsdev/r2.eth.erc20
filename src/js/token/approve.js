@@ -7,6 +7,7 @@ let $approveMessageSuccess;
 let $approveMessageSuccessText;
 let $approveMessageDanger;
 let $approveMessageDangerText;
+let $approveFormSubmitButton;
 
 let contractInstance;
 
@@ -16,6 +17,7 @@ export const registerApproveElements = (
     _approveMessageSuccessText,
     _approveMessageDanger,
     _approveMessageDangerText,
+    _approveFormSubmitButton,
     _contractInstance,
 ) => {
     $approveForm = _approveForm;
@@ -23,6 +25,7 @@ export const registerApproveElements = (
     $approveMessageSuccessText = _approveMessageSuccessText;
     $approveMessageDanger = _approveMessageDanger;
     $approveMessageDangerText = _approveMessageDangerText;
+    $approveFormSubmitButton = _approveFormSubmitButton;
     contractInstance = _contractInstance;
 };
 
@@ -34,37 +37,49 @@ export const clearApproveFormModal = () => {
     $approveMessageDangerText.innerHTML = '';
 };
 
+var approveFormSubmitted = false;
+
 export const registerApproveFormSubmit = async () => {
     $approveForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let message = '';
-        let messageType = 'danger';
+        $approveFormSubmitButton.disabled = true;
 
-        const spender = e.target.elements[1].value;
-        const value = Number(e.target.elements[2].value);
+        if (!approveFormSubmitted) {
 
-        try {
-            const pausedResult = await paused();
-            if (pausedResult === false) {
-                await contractInstance.approve(spender, value);
-                messageType = 'success';
-                message = 'Approve success!';
-            } else {
-                message = 'Contract is paused!';
+            approveFormSubmitted = true;
+
+            let message = '';
+            let messageType = 'danger';
+
+            const spender = e.target.elements[1].value;
+            const value = Number(e.target.elements[2].value);
+
+            try {
+                const pausedResult = await paused();
+                if (pausedResult === false) {
+                    await contractInstance.approve(spender, value);
+                    messageType = 'success';
+                    message = 'Approve success!';
+                } else {
+                    message = 'Contract is paused!';
+                }
+            } catch (err) {
+                message = `Approve error: ${err.message}`;
+            } finally {
+                approveFormSubmitted = false;
+                $approveFormSubmitButton.disabled = false;
+
+                setMessage(
+                    $approveMessageSuccess,
+                    $approveMessageSuccessText,
+                    $approveMessageDanger,
+                    $approveMessageDangerText,
+                    messageType,
+                    message);
+
+                await setConnectedWalletBalance();
             }
-        } catch (err) {
-            message = `Approve error: ${err.message}`;
         }
-
-        setMessage(
-            $approveMessageSuccess,
-            $approveMessageSuccessText,
-            $approveMessageDanger,
-            $approveMessageDangerText,
-            messageType,
-            message);
-
-        await setConnectedWalletBalance();
     });
 };

@@ -71,15 +71,18 @@ const setStatusButton = () => {
 
     if ($lifecycleStatusInput.value === 'Running') {
         //set pause button
+        button.id = 'Pause';
         button.value = 'Pause';
         button.classList.add('btn-danger');
     } else if ($lifecycleStatusInput.value === 'Paused') {
         //set run button
+        button.id = 'Run';
         button.value = 'Run';
         button.classList.add('btn-primary');
     }
 
-    $lifecycleButtons.appendChild(button);
+    if (!document.getElementById(button.id))
+        $lifecycleButtons.appendChild(button);
 };
 
 export const registerLifecycleFormSubmit = async () => {

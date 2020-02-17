@@ -9,6 +9,7 @@ let $burnFromMessageSuccess;
 let $burnFromMessageSuccessText;
 let $burnFromMessageDanger;
 let $burnFromMessageDangerText;
+let $burnFromSubmitButton;
 
 let contractInstance;
 
@@ -18,6 +19,7 @@ export const registerBurnFromElements = (
     _burnFromMessageSuccessText,
     _burnFromMessageDanger,
     _burnFromMessageDangerText,
+    _burnFromSubmitButton,
     _contractInstance,
 ) => {
     $burnFromForm = _burnFromForm;
@@ -25,6 +27,7 @@ export const registerBurnFromElements = (
     $burnFromMessageSuccessText = _burnFromMessageSuccessText;
     $burnFromMessageDanger = _burnFromMessageDanger;
     $burnFromMessageDangerText = _burnFromMessageDangerText;
+    $burnFromSubmitButton = _burnFromSubmitButton;
     contractInstance = _contractInstance;
 };
 
@@ -36,47 +39,59 @@ export const clearBurnFromFormModal = () => {
     $burnFromMessageDangerText.innerHTML = '';
 };
 
+let burnFromFormSubmitted = false;
+
 export const registerBurnFromFormSubmit = async () => {
     $burnFromForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let message = '';
-        let messageType = 'danger';
+        $burnFromSubmitButton.disabled = true;
 
-        const from = e.target.elements[1].value;
-        const amount = Number(e.target.elements[2].value);
+        if (!burnFromFormSubmitted) {
 
-        try {
-            const pausedResult = await paused();
-            if (pausedResult === false) {
+            burnFromFormSubmitted = true;
 
-                const connectedAccountResult = await connectedAccount();
-                const isBurnerResult = await isBurner(connectedAccountResult);
+            let message = '';
+            let messageType = 'danger';
 
-                if (isBurnerResult) {
-                    await contractInstance.burnFrom(from, amount);
-                    messageType = 'success';
-                    message = 'BurnFrom success!';
+            const from = e.target.elements[1].value;
+            const amount = Number(e.target.elements[2].value);
+
+            try {
+                const pausedResult = await paused();
+                if (pausedResult === false) {
+
+                    const connectedAccountResult = await connectedAccount();
+                    const isBurnerResult = await isBurner(connectedAccountResult);
+
+                    if (isBurnerResult) {
+                        await contractInstance.burnFrom(from, amount);
+                        messageType = 'success';
+                        message = 'BurnFrom success!';
+                    } else {
+                        message = 'You do not have an Burner Role defined!';
+                    }
                 } else {
-                    message = 'You do not have an Burner Role defined!';
+                    message = 'Contract is paused!';
                 }
-            } else {
-                message = 'Contract is paused!';
+            } catch (err) {
+                message = `BurnFrom error: ${err.message}`;
+            } finally {
+                burnFromFormSubmitted = false;
+                $burnFromSubmitButton.disabled = false;
+                
+                setMessage(
+                    $burnFromMessageSuccess,
+                    $burnFromMessageSuccessText,
+                    $burnFromMessageDanger,
+                    $burnFromMessageDangerText,
+                    messageType,
+                    message);
+
+                await setTotalSupply();
+
+                await setConnectedWalletBalance();
             }
-        } catch (err) {
-            message = `BurnFrom error: ${err.message}`;
         }
-
-        setMessage(
-            $burnFromMessageSuccess,
-            $burnFromMessageSuccessText,
-            $burnFromMessageDanger,
-            $burnFromMessageDangerText,
-            messageType,
-            message);
-
-        await setTotalSupply();
-
-        await setConnectedWalletBalance();
     });
 };

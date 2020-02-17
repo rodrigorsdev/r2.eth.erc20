@@ -7,6 +7,7 @@ let $addRoleMessageSuccess;
 let $addRoleMessageSuccessText;
 let $addRoleMessageDanger;
 let $addRoleMessageDangerText;
+let $addRoleSubmitButton;
 
 let contractInstance;
 
@@ -16,6 +17,7 @@ export const registerAddRoleElements = (
     _addRoleMessageSuccessText,
     _addRoleMessageDanger,
     _addRoleMessageDangerText,
+    _addRoleSubmitButton,
     _contractInstance,
 ) => {
     $addRoleForm = _addRoleForm;
@@ -23,6 +25,7 @@ export const registerAddRoleElements = (
     $addRoleMessageSuccessText = _addRoleMessageSuccessText;
     $addRoleMessageDanger = _addRoleMessageDanger;
     $addRoleMessageDangerText = _addRoleMessageDangerText;
+    $addRoleSubmitButton = _addRoleSubmitButton;
     contractInstance = _contractInstance;
 };
 
@@ -34,47 +37,58 @@ export const clearAddRoleFormModal = () => {
     $addRoleMessageDangerText.innerHTML = '';
 };
 
+let addRoleFormSubmitted = false;
+
 export const registerAddRoleFormSubmit = async () => {
     $addRoleForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let message = '';
-        let messageType = 'danger';
+        $addRoleSubmitButton.disabled = true;
 
-        const role = e.target.elements[1].value;
-        const address = e.target.elements[2].value;
+        if (!addRoleFormSubmitted) {
+            addRoleFormSubmitted = true;
 
-        try {
-            const connectedAccountResult = await connectedAccount();
-            const isAdminResult = await isAdmin(connectedAccountResult);
+            let message = '';
+            let messageType = 'danger';
 
-            if (isAdminResult) {
-                if (role === 'admin') {
-                    await contractInstance.addAdmin(address);
-                    message = `${address} added from admin`;
-                } else if (role === 'burner') {
-                    await contractInstance.addBurner(address);
-                    message = `${address} added from burner`;
-                } else if (role === 'minter') {
-                    await contractInstance.addMinter(address);
-                    message = `${address} added from minter`;;
+            const role = e.target.elements[1].value;
+            const address = e.target.elements[2].value;
+
+            try {
+                const connectedAccountResult = await connectedAccount();
+                const isAdminResult = await isAdmin(connectedAccountResult);
+
+                if (isAdminResult) {
+                    if (role === 'admin') {
+                        await contractInstance.addAdmin(address);
+                        message = `${address} added from admin`;
+                    } else if (role === 'burner') {
+                        await contractInstance.addBurner(address);
+                        message = `${address} added from burner`;
+                    } else if (role === 'minter') {
+                        await contractInstance.addMinter(address);
+                        message = `${address} added from minter`;;
+                    }
+
+                    messageType = 'success';
+                } else {
+                    message = 'You do not have an Admin Role defined!';
                 }
 
-                messageType = 'success';
-            } else {
-                message = 'You do not have an Admin Role defined!';
+            } catch (err) {
+                message = `$AddRole error: ${err.message}`;
+            } finally {
+                addRoleFormSubmitted = false;
+                $addRoleSubmitButton.disabled = false;
+
+                setMessage(
+                    $addRoleMessageSuccess,
+                    $addRoleMessageSuccessText,
+                    $addRoleMessageDanger,
+                    $addRoleMessageDangerText,
+                    messageType,
+                    message);
             }
-
-        } catch (err) {
-            message = `$AddRole error: ${err.message}`;
         }
-
-        setMessage(
-            $addRoleMessageSuccess,
-            $addRoleMessageSuccessText,
-            $addRoleMessageDanger,
-            $addRoleMessageDangerText,
-            messageType,
-            message);
     });
 };

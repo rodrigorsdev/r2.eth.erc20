@@ -6,6 +6,7 @@ let $decreaseApprovalMessageSuccess;
 let $decreaseApprovalMessageSuccessText;
 let $decreaseApprovalMessageDanger;
 let $decreaseApprovalMessageDangerText;
+let $decreaseApprovalFormSubmitButton;
 
 let contractInstance;
 
@@ -15,6 +16,7 @@ export const registerDecreaseApprovalElements = (
     _decreaseApprovalMessageSuccessText,
     _decreaseApprovalMessageDanger,
     _decreaseApprovalMessageDangerText,
+    _decreaseApprovalFormSubmitButton,
     _contractInstance,
 ) => {
     $decreaseApprovalForm = _decreaseApprovalForm;
@@ -22,6 +24,7 @@ export const registerDecreaseApprovalElements = (
     $decreaseApprovalMessageSuccessText = _decreaseApprovalMessageSuccessText;
     $decreaseApprovalMessageDanger = _decreaseApprovalMessageDanger;
     $decreaseApprovalMessageDangerText = _decreaseApprovalMessageDangerText;
+    $decreaseApprovalFormSubmitButton = _decreaseApprovalFormSubmitButton;
     contractInstance = _contractInstance;
 };
 
@@ -33,35 +36,46 @@ export const clearDecreaseApprovalFormModal = () => {
     $decreaseApprovalMessageDangerText.innerHTML = '';
 };
 
+var decreaseApprovalFormSubmitted = false;
+
 export const registerDecreaseApprovalFormSubmit = async () => {
     $decreaseApprovalForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let message = '';
-        let messageType = 'danger';
+        $decreaseApprovalFormSubmitButton.disabled = true;
 
-        const spender = e.target.elements[1].value;
-        const value = Number(e.target.elements[2].value);
+        if (!decreaseApprovalFormSubmitted) {
 
-        try {
-            const pausedResult = await paused();
-            if (pausedResult === false) {
-                await contractInstance.decreaseApproval(spender, value);
-                messageType = 'success';
-                message = 'DecreaseApproval success!';
-            } else {
-                message = 'Contract is paused!';
+            decreaseApprovalFormSubmitted = true;
+
+            let message = '';
+            let messageType = 'danger';
+
+            const spender = e.target.elements[1].value;
+            const value = Number(e.target.elements[2].value);
+
+            try {
+                const pausedResult = await paused();
+                if (pausedResult === false) {
+                    await contractInstance.decreaseApproval(spender, value);
+                    messageType = 'success';
+                    message = 'DecreaseApproval success!';
+                } else {
+                    message = 'Contract is paused!';
+                }
+            } catch (err) {
+                message = `DecreaseApproval error: ${err.message}`;
+            } finally {
+                decreaseApprovalFormSubmitted = false;
+                $decreaseApprovalFormSubmitButton.disabled = false;
+                setMessage(
+                    $decreaseApprovalMessageSuccess,
+                    $decreaseApprovalMessageSuccessText,
+                    $decreaseApprovalMessageDanger,
+                    $decreaseApprovalMessageDangerText,
+                    messageType,
+                    message);
             }
-        } catch (err) {
-            message = `DecreaseApproval error: ${err.message}`;
         }
-
-        setMessage(
-            $decreaseApprovalMessageSuccess,
-            $decreaseApprovalMessageSuccessText,
-            $decreaseApprovalMessageDanger,
-            $decreaseApprovalMessageDangerText,
-            messageType,
-            message);
     });
 };

@@ -7,6 +7,7 @@ let $removeRoleMessageSuccess;
 let $removeRoleMessageSuccessText;
 let $removeRoleMessageDanger;
 let $removeRoleMessageDangerText;
+let $removeRoleSubmitButton;
 
 let contractInstance;
 
@@ -16,6 +17,7 @@ export const registerRemoveRoleElements = (
     _removeRoleMessageSuccessText,
     _removeRoleMessageDanger,
     _removeRoleMessageDangerText,
+    _removeRoleSubmitButton,
     _contractInstance,
 ) => {
     $removeRoleForm = _removeRoleForm;
@@ -23,6 +25,7 @@ export const registerRemoveRoleElements = (
     $removeRoleMessageSuccessText = _removeRoleMessageSuccessText;
     $removeRoleMessageDanger = _removeRoleMessageDanger;
     $removeRoleMessageDangerText = _removeRoleMessageDangerText;
+    $removeRoleSubmitButton = _removeRoleSubmitButton;
     contractInstance = _contractInstance;
 };
 
@@ -34,47 +37,59 @@ export const clearRemoveRoleFormModal = () => {
     $removeRoleMessageDangerText.innerHTML = '';
 };
 
+let removeRoleFormSubmitted = false;
+
 export const registerRemoveRoleFormSubmit = async () => {
     $removeRoleForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let message = '';
-        let messageType = 'danger';
+        $removeRoleSubmitButton.disabled = true;
 
-        const role = e.target.elements[1].value;
-        const address = e.target.elements[2].value;
+        if (!removeRoleFormSubmitted) {
 
-        try {
-            const connectedAccountResult = await connectedAccount();
-            const isAdminResult = await isAdmin(connectedAccountResult);
+            removeRoleFormSubmitted = true;
 
-            if (isAdminResult) {
-                if (role === 'admin') {
-                    await contractInstance.removeAdmin(address);
-                    message = `${address} removed from admin`;
-                } else if (role === 'burner') {
-                    await contractInstance.removeBurner(address);
-                    message = `${address} removed from burner`;
-                } else if (role === 'minter') {
-                    await contractInstance.removeMinter(address);
-                    message = `${address} removed from minter`;
+            let message = '';
+            let messageType = 'danger';
+
+            const role = e.target.elements[1].value;
+            const address = e.target.elements[2].value;
+
+            try {
+                const connectedAccountResult = await connectedAccount();
+                const isAdminResult = await isAdmin(connectedAccountResult);
+
+                if (isAdminResult) {
+                    if (role === 'admin') {
+                        await contractInstance.removeAdmin(address);
+                        message = `${address} removed from admin`;
+                    } else if (role === 'burner') {
+                        await contractInstance.removeBurner(address);
+                        message = `${address} removed from burner`;
+                    } else if (role === 'minter') {
+                        await contractInstance.removeMinter(address);
+                        message = `${address} removed from minter`;
+                    }
+
+                    messageType = 'success';
+                } else {
+                    message = 'You do not have an Admin Role defined!';
                 }
 
-                messageType = 'success';
-            } else {
-                message = 'You do not have an Admin Role defined!';
+            } catch (err) {
+                message = `RemoveRole error: ${err.message}`;
+            } finally {
+                removeRoleFormSubmitted = false;
+                $removeRoleSubmitButton.disabled = false;
+
+                setMessage(
+                    $removeRoleMessageSuccess,
+                    $removeRoleMessageSuccessText,
+                    $removeRoleMessageDanger,
+                    $removeRoleMessageDangerText,
+                    messageType,
+                    message);
             }
-
-        } catch (err) {
-            message = `RemoveRole error: ${err.message}`;
         }
-
-        setMessage(
-            $removeRoleMessageSuccess,
-            $removeRoleMessageSuccessText,
-            $removeRoleMessageDanger,
-            $removeRoleMessageDangerText,
-            messageType,
-            message);
     });
 };

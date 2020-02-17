@@ -52,42 +52,49 @@ let $transferMessageSuccess;
 let $transferMessageSuccessText;
 let $transferMessageDanger;
 let $transferMessageDangerText;
+let $transferFormSubmitButton;
 
 let $transferFromForm;
 let $transferFromMessageSuccess;
 let $transferFromMessageSuccessText;
 let $transferFromMessageDanger;
 let $transferFromMessageDangerText;
+let $transferFromFormSubmitButton;
 
 let $approveForm;
 let $approveMessageSuccess;
 let $approveMessageSuccessText;
 let $approveMessageDanger;
 let $approveMessageDangerText;
+let $approveFormSubmitButton;
 
 let $increaseApprovalForm;
 let $increaseApprovalMessageSuccess;
 let $increaseApprovalMessageSuccessText;
 let $increaseApprovalMessageDanger;
 let $increaseApprovalMessageDangerText;
+let $increaseApprovalFormSubmitButton;
 
 let $decreaseApprovalForm;
 let $decreaseApprovalMessageSuccess;
 let $decreaseApprovalMessageSuccessText;
 let $decreaseApprovalMessageDanger;
 let $decreaseApprovalMessageDangerText;
+let $decreaseApprovalFormSubmitButton;
 
 let $mintToForm;
 let $mintToMessageSuccess;
 let $mintToMessageSuccessText;
 let $mintToMessageDanger;
 let $mintToMessageDangerText;
+let $mintToSubmitButton;
 
 let $burnFromForm;
 let $burnFromMessageSuccess;
 let $burnFromMessageSuccessText;
 let $burnFromMessageDanger;
 let $burnFromMessageDangerText;
+let $burnFromSubmitButton;
 
 let $lifecycleForm;
 let $lifecycleStatus;
@@ -109,12 +116,14 @@ let $addRoleMessageSuccess;
 let $addRoleMessageSuccessText;
 let $addRoleMessageDanger;
 let $addRoleMessageDangerText;
+let $addRoleSubmitButton;
 
 let $removeRoleForm;
 let $removeRoleMessageSuccess;
 let $removeRoleMessageSuccessText;
 let $removeRoleMessageDanger;
 let $removeRoleMessageDangerText;
+let $removeRoleSubmitButton;
 
 const registerElements = () => {
     $connectedNetwork = document.getElementById('connectedNetwork');
@@ -144,42 +153,50 @@ const registerElements = () => {
     $transferMessageSuccessText = document.getElementById('transfer-result-success-text');
     $transferMessageDanger = document.getElementById('transfer-result-danger');
     $transferMessageDangerText = document.getElementById('transfer-result-danger-text');
+    $transferFormSubmitButton = document.getElementById('transfer-submit-button');
 
     $transferFromForm = document.getElementById('transferFrom');
     $transferFromMessageSuccess = document.getElementById('transferFrom-result-success');
     $transferFromMessageSuccessText = document.getElementById('transferFrom-result-success-text');
     $transferFromMessageDanger = document.getElementById('transferFrom-result-danger');
     $transferFromMessageDangerText = document.getElementById('transferFrom-result-danger-text');
+    $transferFromFormSubmitButton = document.getElementById('transferFrom-submit-button');
 
     $approveForm = document.getElementById('approve');
     $approveMessageSuccess = document.getElementById('approve-result-success');
     $approveMessageSuccessText = document.getElementById('approve-result-success-text');
     $approveMessageDanger = document.getElementById('approve-result-danger');
     $approveMessageDangerText = document.getElementById('approve-result-danger-text');
+    $approveFormSubmitButton = document.getElementById('approve-submit-button');
+    $approveFormSubmitButton = document.getElementById('approve-submit-button');
 
     $increaseApprovalForm = document.getElementById('increaseApproval');
     $increaseApprovalMessageSuccess = document.getElementById('increaseApproval-result-success');
     $increaseApprovalMessageSuccessText = document.getElementById('increaseApproval-result-success-text');
     $increaseApprovalMessageDanger = document.getElementById('increaseApproval-result-danger');
     $increaseApprovalMessageDangerText = document.getElementById('increaseApproval-result-danger-text');
+    $increaseApprovalFormSubmitButton = document.getElementById('increaseApproval-submit-button');
 
     $decreaseApprovalForm = document.getElementById('decreaseApproval');
     $decreaseApprovalMessageSuccess = document.getElementById('decreaseApproval-result-success');
     $decreaseApprovalMessageSuccessText = document.getElementById('decreaseApproval-result-success-text');
     $decreaseApprovalMessageDanger = document.getElementById('decreaseApproval-result-danger');
     $decreaseApprovalMessageDangerText = document.getElementById('decreaseApproval-result-danger-text');
+    $decreaseApprovalFormSubmitButton = document.getElementById('decreaseApproval-submit-button');
 
     $mintToForm = document.getElementById('mintTo');
     $mintToMessageSuccess = document.getElementById('mintTo-result-success');
     $mintToMessageSuccessText = document.getElementById('mintTo-result-success-text');
     $mintToMessageDanger = document.getElementById('mintTo-result-danger');
     $mintToMessageDangerText = document.getElementById('mintTo-result-danger-text');
+    $mintToSubmitButton = document.getElementById('mintTo-submit-button');
 
     $burnFromForm = document.getElementById('burnFrom');
     $burnFromMessageSuccess = document.getElementById('burnFrom-result-success');
     $burnFromMessageSuccessText = document.getElementById('burnFrom-result-success-text');
     $burnFromMessageDanger = document.getElementById('burnFrom-result-danger');
     $burnFromMessageDangerText = document.getElementById('burnFrom-result-danger-text');
+    $burnFromSubmitButton = document.getElementById('bunrFrom-submit-button');
 
     $lifecycleForm = document.getElementById('lifecycle');
     $lifecycleStatus = document.getElementById('lifecycleStatus');
@@ -201,12 +218,14 @@ const registerElements = () => {
     $addRoleMessageSuccessText = document.getElementById('addRole-result-success-text');
     $addRoleMessageDanger = document.getElementById('addRole-result-danger');
     $addRoleMessageDangerText = document.getElementById('addRole-result-danger-text');
+    $addRoleSubmitButton = document.getElementById('addRole-submit-button');
 
     $removeRoleForm = document.getElementById('removeRole');
     $removeRoleMessageSuccess = document.getElementById('removeRole-result-success');
     $removeRoleMessageSuccessText = document.getElementById('removeRole-result-success-text');
     $removeRoleMessageDanger = document.getElementById('removeRole-result-danger');
     $removeRoleMessageDangerText = document.getElementById('removeRole-result-danger-text');
+    $removeRoleSubmitButton = document.getElementById('removeRole-submit-button');
 };
 
 const init = async () => {
@@ -265,6 +284,7 @@ const init = async () => {
             $transferMessageSuccessText,
             $transferMessageDanger,
             $transferMessageDangerText,
+            $transferFormSubmitButton,
             contractInstance
         );
         clearTransferFormModal();
@@ -277,6 +297,7 @@ const init = async () => {
             $transferFromMessageSuccessText,
             $transferFromMessageDanger,
             $transferFromMessageDangerText,
+            $transferFromFormSubmitButton,
             contractInstance
         );
         clearTransferFromFormModal();
@@ -289,6 +310,7 @@ const init = async () => {
             $approveMessageSuccessText,
             $approveMessageDanger,
             $approveMessageDangerText,
+            $approveFormSubmitButton,
             contractInstance
         );
         clearApproveFormModal();
@@ -301,6 +323,7 @@ const init = async () => {
             $increaseApprovalMessageSuccessText,
             $increaseApprovalMessageDanger,
             $increaseApprovalMessageDangerText,
+            $increaseApprovalFormSubmitButton,
             contractInstance
         );
         clearIncreaseApprovalFormModal();
@@ -313,6 +336,7 @@ const init = async () => {
             $decreaseApprovalMessageSuccessText,
             $decreaseApprovalMessageDanger,
             $decreaseApprovalMessageDangerText,
+            $decreaseApprovalFormSubmitButton,
             contractInstance
         );
         clearDecreaseApprovalFormModal();
@@ -325,6 +349,7 @@ const init = async () => {
             $mintToMessageSuccessText,
             $mintToMessageDanger,
             $mintToMessageDangerText,
+            $mintToSubmitButton,
             contractInstance
         );
         clearMintToFormModal();
@@ -337,6 +362,7 @@ const init = async () => {
             $burnFromMessageSuccessText,
             $burnFromMessageDanger,
             $burnFromMessageDangerText,
+            $burnFromSubmitButton,
             contractInstance
         );
         clearBurnFromFormModal();
@@ -361,6 +387,7 @@ const init = async () => {
             $addRoleMessageSuccessText,
             $addRoleMessageDanger,
             $addRoleMessageDangerText,
+            $addRoleSubmitButton,
             contractInstance
         );
         clearAddRoleFormModal();
@@ -373,6 +400,7 @@ const init = async () => {
             $removeRoleMessageSuccessText,
             $removeRoleMessageDanger,
             $removeRoleMessageDangerText,
+            $removeRoleSubmitButton,
             contractInstance
         );
         clearRemoveRoleFormModal();

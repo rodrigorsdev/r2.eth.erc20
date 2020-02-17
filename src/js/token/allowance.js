@@ -41,8 +41,8 @@ export const allowanceFormSubmit = async () => {
         let allowanceResult = 0;
 
         try {
-            const owner = e.target.elements[0].value;
-            const spender = e.target.elements[1].value;
+            const owner = e.target.elements[1].value;
+            const spender = e.target.elements[2].value;
 
             const allowance = await contractInstance.allowance(owner, spender);
 
@@ -53,7 +53,7 @@ export const allowanceFormSubmit = async () => {
             }
 
             messageType = 'success';
-            message = `Owner ${owner} spender ${spender} allowance ${allowanceResult}`;
+            message = `Allowance: ${allowanceResult}`;
         } catch (err) {
             message = `Allowance error: ${err.message}`;
         }
