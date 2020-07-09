@@ -6,6 +6,7 @@ export const initEthersContract = (provider, $contractAddress) => {
     const contractAddress = R2Token
         .networks[deploymentKey]
         .address;
+    console.log(contractAddress);
     const signer = provider.getSigner();
     $contractAddress.innerHTML = ' ' + contractAddress;
     return new ethers.Contract(

@@ -12,7 +12,7 @@ module.exports = {
         ropsten: {
             provider: () => new HDWalletProvider(process.env.MNENOMIC, "https://ropsten.infura.io/v3/" + process.env.INFURA_API_KEY),
             network_id: 3,
-            gas: 3000000,
+            gas: 4000000,
             gasPrice: 10000000000
         },
         kovan: {
@@ -32,7 +32,13 @@ module.exports = {
             network_id: 1,
             gas: 3000000,
             gasPrice: 10000000000
-        }
+        },
+        besu: {
+            gas: 4700000,
+            gasPrice: 0,
+            provider: () => new HDWalletProvider(process.env.MNENOMIC, 'http://192.168.13.113:8545'),
+            network_id: '*',
+          }
     },
     compilers: {
         solc: {
